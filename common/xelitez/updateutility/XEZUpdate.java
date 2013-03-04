@@ -1,18 +1,8 @@
 package xelitez.updateutility;
 
-import java.util.EnumSet;
-import java.util.logging.Logger;
-
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.Mod.*;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -34,12 +24,11 @@ public class XEZUpdate
     {
 		evt.getModMetadata().version = Version.getVersion() + " for " + Version.MC;
 		XEZLog.registerLogger();
-		TickRegistry.registerTickHandler(UpdateTicker.getInstance(), Side.SERVER);
 		if(evt.getSide().isClient())
 		{
-			TickRegistry.registerTickHandler(UpdateTicker.getInstance(), Side.SERVER);
+			TickRegistry.registerTickHandler(UpdateTicker.getInstance(), Side.CLIENT);
 		}
-		NetworkRegistry.instance().registerConnectionHandler(UpdateTicker.getInstance());
+		NetworkRegistry.instance().registerConnectionHandler(new UpdateConnectionHandler());
 		UpdateRegistry.addMod(this, new Version());
     }
 	
@@ -47,7 +36,10 @@ public class XEZUpdate
     public void postload(FMLPostInitializationEvent evt)
     {
 		UpdateRegistry.instance().checkForUpdates();
-		KeyBindingRegistry.registerKeyBinding(UpdateKeyHandler.instance());
+		if(evt.getSide().isClient())
+		{
+			KeyBindingRegistry.registerKeyBinding(UpdateKeyHandler.instance());
+		}
     }
 	
 }

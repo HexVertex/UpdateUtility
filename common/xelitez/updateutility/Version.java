@@ -10,9 +10,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-
 public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
@@ -45,113 +42,108 @@ public class Version implements IXEZUpdate
 	@Override
 	public String getCurrentVersion() 
 	{
-		return this.getVersion() + " for " + this.MC;
+		return Version.getVersion() + " for " + Version.MC;
 	}
 
 	@Override
 	public String getNewVersion() 
 	{
-		return this.newVersion;
+		return Version.newVersion;
 	}
 
 	@Override
 	public void checkForUpdates() 
 	{
-		new Thread()
-    	{
-    		public void run()
-    		{
-		    	List strings = new ArrayList();
-		    	int MV = 0;
-		    	int mV = 0;
-		    	int MB = 0;
-		    	String NMC = "";
-					
-		    	try
-		    	{
-		    		URL url = new URL("https://raw.github.com/XEZKalvin/UpdateUtility/master/minecraft/xelitez/frostcraft/Version.java");
-		    		URLConnection connect = url.openConnection();
-		    		connect.setConnectTimeout(5000);
-		    		connect.setReadTimeout(5000);
-		    		BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-		    		String str;
-		    		
-		    		while ((str = in.readLine()) != null)
-		    		{
-		    			strings.add(str);
-		    		}
-		    		
-		    		in.close();
-		    	}
-		    	catch (MalformedURLException e)
-		    	{
-		    		XEZLog.info("Unable to check for updates");
+		List<String> strings = new ArrayList<String>();
+		int MV = 0;
+		int mV = 0;
+		int MB = 0;
+		String NMC = "";
+		
+		try
+		{
+			URL url = new URL("https://raw.github.com/XEZKalvin/UpdateUtility/master/common/xelitez/updateutility/Version.java");
+			URLConnection connect = url.openConnection();
+			connect.setConnectTimeout(5000);
+			connect.setReadTimeout(5000);
+			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+			String str;
+			
+			while ((str = in.readLine()) != null)
+			{
+				strings.add(str);
+			}
+			
+			in.close();
+		}
+		catch (MalformedURLException e)
+		{
+			XEZLog.info("Unable to check for updates");
 		    		return;
+		}
+		catch (ConnectException e)
+		{
+			XEZLog.info("Unable to connect to update page");
+			return;
 		    	}
-		    	catch (ConnectException e)
-		    	{
-		    		XEZLog.info("Unable to connect to update page");
-		    		return;
-		    	}
-		    	catch (IOException e)
-		    	{
-		    		XEZLog.info("Unable to check for updates");
-		    		return;
-		    	}
-					
-		    	for (int i = 0; i < strings.size(); i++)
-		    	{
-		    		String line = "";
-		    		
-		    		if (strings.get(i) != null)
-		    		{
-		    			line = (String)strings.get(i);
-		    		}
-		    		
-		    		if (line != null && !line.matches(""))
-		    		{
-		    			if (line.contains("public static int majorVersion") && !line.contains("\"public static int majorVersion\""))
-		    			{
-		    				line = line.substring(line.indexOf("= ") + 2, line.indexOf(';'));
-		    				MV = Integer.parseInt(line);
-		    			}
-		    			
-		    			if (line.contains("public static int minorVersion") && !line.contains("\"public static int minorVersion\""))
-		    			{
-		    				line = line.substring(line.indexOf("= ") + 2, line.indexOf(';'));
-		    				mV = Integer.parseInt(line);
-		    			}
-		    			
-		    			if (line.contains("public static int majorBuild") && !line.contains("\"public static int majorBuild\""))
-		    			{
-		    				line = line.substring(line.indexOf("= ") + 2, line.indexOf(';'));
-		    				MB = Integer.parseInt(line);
-		    			}
-		    			
-		    			if (line.contains("public static String MC") && !line.contains("\"public static String MC\"") && line.contains("MC:") && !line.contains("\"MC:\""))
-		    			{
-		    				line = line.substring(line.indexOf("MC:") + 3, line.indexOf("\";"));
-		    				NMC = line;
-		    			}
-		    		}
-		    	}
-					
-		    	if ((!getVersion().matches(produceVersion(MV, mV, MB)) || !MC.matches("MC:" + NMC)) && !produceVersion(MV, mV, MB).matches("0"))
-		    	{
-		    		if (!MC.matches("MC:" + NMC) || !getVersion().matches(produceVersion(MV, mV, MB)))
-		    		{
-		    			available = true;
-		    			newVersion = produceVersion(MV, mV, MB);
-		    			
-		    			if (!NMC.matches(""))
-		    			{
-		    				newVersion = newVersion + " for MC:" + NMC;
-		    			}
-		    		}
-		    	}
-		    }	
-    	}.start();
-	}
+		catch (IOException e)
+		{
+			XEZLog.info("Unable to check for updates");
+			return;
+		}
+		
+		for (int i = 0; i < strings.size(); i++)
+		{
+			String line = "";
+			
+			if (strings.get(i) != null)
+			{
+				line = (String)strings.get(i);
+			}
+			
+			if (line != null && !line.matches(""))
+			{
+				if (line.contains("public static int majorVersion") && !line.contains("\"public static int majorVersion\""))
+				{
+					line = line.substring(line.indexOf("= ") + 2, line.indexOf(';'));
+					MV = Integer.parseInt(line);
+				}
+				
+				if (line.contains("public static int minorVersion") && !line.contains("\"public static int minorVersion\""))
+				{
+					line = line.substring(line.indexOf("= ") + 2, line.indexOf(';'));
+					mV = Integer.parseInt(line);
+				}
+				
+				if (line.contains("public static int majorBuild") && !line.contains("\"public static int majorBuild\""))
+				{
+					line = line.substring(line.indexOf("= ") + 2, line.indexOf(';'));
+					MB = Integer.parseInt(line);
+				}
+				
+				if (line.contains("public static String MC") && !line.contains("\"public static String MC\"") && line.contains("MC:") && !line.contains("\"MC:\""))
+				{
+					line = line.substring(line.indexOf("MC:") + 3, line.indexOf("\";"));
+					NMC = line;
+				}
+			}
+		}
+		
+		if ((!getVersion().matches(produceVersion(MV, mV, MB)) || !MC.matches("MC:" + NMC)) && !produceVersion(MV, mV, MB).matches("0"))
+		{
+			if (!MC.matches("MC:" + NMC) || !getVersion().matches(produceVersion(MV, mV, MB)))
+			{
+				available = true;
+			}
+		}
+		newVersion = produceVersion(MV, mV, MB);
+		
+		if (!NMC.matches(""))
+		{
+			newVersion = newVersion + " for MC:" + NMC;
+		}
+		
+	}			
 
 	@Override
 	public boolean doesModCheckForUpdates() 
@@ -162,7 +154,7 @@ public class Version implements IXEZUpdate
 	@Override
 	public boolean isUpdateAvailable() 
 	{
-		return this.available;
+		return Version.available;
 	}
 
 	@Override

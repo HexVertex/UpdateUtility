@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModContainer;
 
 public class UpdateRegistry 
@@ -31,7 +29,7 @@ public class UpdateRegistry
 			}
 			else
 			{
-				instance.mods.add(new ModInstance(mc, (IXEZUpdate)update));
+				UpdateRegistry.mods.add(new ModInstance(mc, (IXEZUpdate)update));
 				XEZLog.log(Level.INFO, "The mod " + mc.getName() + " has been successfully registered to XEZUpdateUtility");
 			}
 		}
@@ -77,6 +75,10 @@ public class UpdateRegistry
 						{
 							XEZLog.info("Checking for updates of " + mods.get(i).mod.getName() + "...");
 							mods.get(i).update.checkForUpdates();
+							if(mods.get(i).update.isUpdateAvailable() && FMLCommonHandler.instance().getSide().isServer())
+							{
+								XEZLog.info("A new version of " + mods.get(i).mod.getName() + " is available.");
+							}
 						}
 					} catch(Exception e)
 					{
@@ -105,6 +107,19 @@ public class UpdateRegistry
 	public ModInstance getMod(int i)
 	{
 		return mods.get(i);
+	}
+	
+	public int getNumberOfModUpdatesAvailable()
+	{
+		int updates = 0;
+		for(ModInstance mod : mods)
+		{
+			if(mod.update.isUpdateAvailable())
+			{
+				updates++;
+			}
+		}
+		return updates;
 	}
 	
 	public static class ModInstance

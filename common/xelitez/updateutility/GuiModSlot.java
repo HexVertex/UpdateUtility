@@ -4,13 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import xelitez.updateutility.UpdateRegistry.ModInstance;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.texturepacks.GuiTexturePacks;
-import net.minecraft.util.StringTranslate;
-import net.minecraft.world.EnumGameType;
 
 public class GuiModSlot extends GuiSlot
 {
@@ -48,11 +43,23 @@ public class GuiModSlot extends GuiSlot
     {
         return UpdateRegistry.instance().getModAmount() * 36;
     }
+    
+    protected void drawContainerBackground(Tessellator tess)
+    {
+    	if(parentUpdateGui.getMC().theWorld != null)
+    	{
+    		parentUpdateGui.drawGradientRect(0, 0, parentUpdateGui.width, parentUpdateGui.height, -1072689136, -804253680);
+    	}
+    	else
+    	{
+    		super.drawContainerBackground(tess);
+    	}
+    }
 
 	@Override
 	protected void drawBackground() 
 	{
-		this.parentUpdateGui.drawDefaultBackground();
+
 	}
 
 	@Override
@@ -70,7 +77,9 @@ public class GuiModSlot extends GuiSlot
         ModInstance mod = UpdateRegistry.instance().getMod(par1);
         this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), mod.mod.getName(), par2 + 32 + 2, par3 + 1, 16777215);
         this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Current version: " + (mod.update.getCurrentVersion() != null ? mod.update.getCurrentVersion() : ""), par2 + 32 + 2, par3 + 12, 8421504);
-        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Latest version: " + (mod.update.getNewVersion() != null ? mod.update.getNewVersion() : ""), par2 + 32 + 2, par3 + 12 + 10, 8421504);
+        String color = mod.update.isUpdateAvailable() ? "\u00a7c" : "\u00a7a";
+        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Latest version: " + color + (mod.update.getNewVersion() != null ? mod.update.getNewVersion() : ""), par2 + 32 + 2, par3 + 12 + 10, 8421504);
+        
 	}
 
 }
