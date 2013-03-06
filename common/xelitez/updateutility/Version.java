@@ -166,7 +166,7 @@ public class Version implements IXEZUpdate
 	@Override
 	public String getUpdateUrl() 
 	{
-		return null;
+		return "http://www.minecraftforum.net/topic/842232-/#XUU";
 	}
 
 	@Override
