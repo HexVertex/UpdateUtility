@@ -65,7 +65,7 @@ public class GuiModSlot extends GuiSlot
 	@Override
 	protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5) 
 	{
-		this.parentUpdateGui.getMC().renderEngine.bindTexture(this.parentUpdateGui.getMC().renderEngine.getTexture(UpdateRegistry.instance().getMod(par1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(par1).update.getModIcon() : "/xelitez/updateutility/default_icon.png"));
+		this.parentUpdateGui.getMC().renderEngine.bindTexture((UpdateRegistry.instance().getMod(par1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(par1).update.getModIcon() : "/xelitez/updateutility/default_icon.png"));
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         par5.startDrawingQuads();
         par5.setColorOpaque_I(16777215);

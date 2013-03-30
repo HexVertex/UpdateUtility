@@ -59,6 +59,6 @@ public class UpdateKeyHandler extends KeyHandler
 	@Override
 	public EnumSet<TickType> ticks() 
 	{
-		return EnumSet.of(TickType.CLIENT, TickType.GUI);
+		return EnumSet.of(TickType.CLIENT);
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.StringTranslate;
 
 public class GuiUpdates extends GuiScreen
@@ -26,13 +27,43 @@ public class GuiUpdates extends GuiScreen
         this.parentScreen = parentGui;
         this.selectedMod = -1;
     }
+    
+    public void drawGradientRect(int par1, int par2, int par3, int par4, int par5, int par6)
+    {
+        float f = (float)(par5 >> 24 & 255) / 255.0F;
+        float f1 = (float)(par5 >> 16 & 255) / 255.0F;
+        float f2 = (float)(par5 >> 8 & 255) / 255.0F;
+        float f3 = (float)(par5 & 255) / 255.0F;
+        float f4 = (float)(par6 >> 24 & 255) / 255.0F;
+        float f5 = (float)(par6 >> 16 & 255) / 255.0F;
+        float f6 = (float)(par6 >> 8 & 255) / 255.0F;
+        float f7 = (float)(par6 & 255) / 255.0F;
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.setColorRGBA_F(f1, f2, f3, f);
+        tessellator.addVertex((double)par3, (double)par2, (double)this.zLevel);
+        tessellator.addVertex((double)par1, (double)par2, (double)this.zLevel);
+        tessellator.setColorRGBA_F(f5, f6, f7, f4);
+        tessellator.addVertex((double)par1, (double)par4, (double)this.zLevel);
+        tessellator.addVertex((double)par3, (double)par4, (double)this.zLevel);
+        tessellator.draw();
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
 	
     public void drawScreen(int par1, int par2, float par3)
     {
         this.guiModSlot.drawScreen(par1, par2, par3);
         this.drawCenteredString(this.fontRenderer, "XEliteZ Update Utility", this.width / 2, 20, 16777215);
         super.drawScreen(par1, par2, par3);
-        for(Object obj : controlList)
+        for(Object obj : buttonList)
         {
         	if(obj instanceof GuiButton && ((GuiButton) obj).id == 2)
         	{
@@ -70,7 +101,7 @@ public class GuiUpdates extends GuiScreen
     public void initGui()
     {
         this.guiModSlot = new GuiModSlot(this);
-        this.guiModSlot.registerScrollButtons(this.controlList, 4, 5);
+        this.guiModSlot.registerScrollButtons(this.buttonList, 4, 5);
         this.initButtons();
     }
     
@@ -78,10 +109,10 @@ public class GuiUpdates extends GuiScreen
 	public void initButtons()
     {
         StringTranslate var1 = StringTranslate.getInstance();
-        this.controlList.add(this.buttonOpenUpdateUrl = new GuiButton(1, this.width / 2 - 88, this.height - 40, 90, 20, var1.translateKey("Open Update Url")));
-        this.controlList.add(this.buttonUpdate = new GuiButton(2, this.width / 2 - 165, this.height - 40, 72, 20, var1.translateKey("Update")));
-        this.controlList.add(new GuiButtonRefresh(3, this.width / 2 + 150, 7));
-        this.controlList.add(new GuiButton(0, this.width / 2 + 15, this.height - 40, 150, 20, var1.translateKey("gui.cancel")));
+        this.buttonList.add(this.buttonOpenUpdateUrl = new GuiButton(1, this.width / 2 - 88, this.height - 40, 90, 20, var1.translateKey("Open Update Url")));
+        this.buttonList.add(this.buttonUpdate = new GuiButton(2, this.width / 2 - 165, this.height - 40, 72, 20, var1.translateKey("Update")));
+        this.buttonList.add(new GuiButtonRefresh(3, this.width / 2 + 150, 7));
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 15, this.height - 40, 150, 20, var1.translateKey("gui.cancel")));
         this.buttonOpenUpdateUrl.enabled = false;
         this.buttonUpdate.enabled = false;
     }

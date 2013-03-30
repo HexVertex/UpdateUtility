@@ -1,5 +1,7 @@
 package xelitez.updateutility;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
@@ -50,7 +52,7 @@ public class UpdateConnectionHandler implements IConnectionHandler
 	{
 		if(UpdateRegistry.instance().getNumberOfModUpdatesAvailable() > 0)
 		{
-			clientHandler.getPlayer().addChatMessage("[XEZUpdateUtility]One or more mods appear to have updates. go back to the main menu to check which mods.");
+			clientHandler.getPlayer().addChatMessage("[XEZUpdateUtility] \u00a7eOne or more mods appear to have updates. go back to the main menu to check which mods or press \u00a7f" + Keyboard.getKeyName(UpdateKeyHandler.instance().getKeyBindings()[0].keyCode) + "\u00a7e to open the ingame-GUI.");
 		}
 	}
 }

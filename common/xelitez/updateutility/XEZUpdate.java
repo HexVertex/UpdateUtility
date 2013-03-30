@@ -12,8 +12,8 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(	
 		modid = "XEZUpdate",
 		name = "XEliteZ Update Utility",
-		acceptedMinecraftVersions = "[1.4.7]",
-		version = "1.0.0")
+		acceptedMinecraftVersions = "[1.5.1]",
+		version = "1.0")
 public class XEZUpdate 
 {
 	@Instance(value = "XEZUpdate")

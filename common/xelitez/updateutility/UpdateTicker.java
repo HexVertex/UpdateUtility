@@ -58,7 +58,7 @@ public class UpdateTicker implements ITickHandler
 	            	var6 += 20;
 	            }
 				gui.drawTexturedModalRect(xPosition, yPosition, var6, var5, width, height);
-	            gui.drawCenteredString(gui.fontRenderer, new StringBuilder().append(UpdateRegistry.instance().getNumberOfModUpdatesAvailable()).toString(), xPosition + 17 + width / 2, yPosition + (height - 8) / 2, 0xffffff);
+	            gui.drawCenteredString(FMLClientHandler.instance().getClient().fontRenderer, new StringBuilder().append(UpdateRegistry.instance().getNumberOfModUpdatesAvailable()).toString(), xPosition + 17 + width / 2, yPosition + (height - 8) / 2, 0xffffff);
 				if(Mouse.isButtonDown(0) && var4)
 				{
 					FMLClientHandler.instance().getClient().sndManager.playSoundFX("random.click", 1.0F, 1.0F);
