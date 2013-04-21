@@ -133,4 +133,5 @@ public class UpdateRegistry
 			this.update = update;
 		}
 	}
+
 }

@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 		modid = "XEZUpdate",
 		name = "XEliteZ Update Utility",
 		acceptedMinecraftVersions = "[1.5.1]",
-		version = "1.0")
+		version = "1.1")
 public class XEZUpdate 
 {
 	@Instance(value = "XEZUpdate")
@@ -40,6 +40,7 @@ public class XEZUpdate
 		{
 			KeyBindingRegistry.registerKeyBinding(UpdateKeyHandler.instance());
 		}
+		UpdaterThread.start();
     }
 	
 }

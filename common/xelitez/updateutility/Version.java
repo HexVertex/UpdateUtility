@@ -13,8 +13,8 @@ import java.util.List;
 public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
-    public static int minorVersion = 0;
-    public static int majorBuild = 1;
+    public static int minorVersion = 1;
+    public static int majorBuild = 2;
     public static String MC = "MC:1.5.1";
     
     public static String newVersion;
@@ -172,7 +172,13 @@ public class Version implements IXEZUpdate
 	@Override
 	public String getDownloadUrl() 
 	{
-		return null;
+		return "http://adf.ly/KLSKB";
+	}
+
+	@Override
+	public String stringToDelete() 
+	{
+		return "UpdateUtility";
 	}
 
 }

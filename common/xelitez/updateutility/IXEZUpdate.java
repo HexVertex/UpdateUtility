@@ -17,4 +17,6 @@ public interface IXEZUpdate
 	public String getUpdateUrl();
 	
 	public String getDownloadUrl();
+	
+	public String stringToDelete();
 }

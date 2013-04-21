@@ -26,11 +26,14 @@ public class GuiModSlot extends GuiSlot
 	@Override
 	protected void elementClicked(int var1, boolean var2) 
 	{
-        GuiUpdates.onElementSelected(this.parentUpdateGui, var1);
-        boolean hasUpdateUrl = UpdateRegistry.instance().getMod(var1).update.getUpdateUrl() != null;
-        boolean hasDownloadUrl = UpdateRegistry.instance().getMod(var1).update.getDownloadUrl() != null && UpdateRegistry.instance().getMod(var1).update.isUpdateAvailable();
-        GuiUpdates.getOpenUpdateUrlButton(this.parentUpdateGui).enabled = hasUpdateUrl;
-        GuiUpdates.getUpdateButton(this.parentUpdateGui).enabled = hasDownloadUrl;
+		if(!parentUpdateGui.isDownloading)
+		{
+	        GuiUpdates.onElementSelected(this.parentUpdateGui, var1);
+	        boolean hasUpdateUrl = UpdateRegistry.instance().getMod(var1).update.getUpdateUrl() != null;
+	        boolean hasDownloadUrl = UpdateRegistry.instance().getMod(var1).update.getDownloadUrl() != null && UpdateRegistry.instance().getMod(var1).update.isUpdateAvailable();
+	        GuiUpdates.getOpenUpdateUrlButton(this.parentUpdateGui).enabled = hasUpdateUrl;
+	        GuiUpdates.getUpdateButton(this.parentUpdateGui).enabled = hasDownloadUrl && UpdateRegistry.instance().getMod(var1).update.isUpdateAvailable();
+		}
 	}
 
 	@Override

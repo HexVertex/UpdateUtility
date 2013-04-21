@@ -1,15 +1,17 @@
 package xelitez.updateutility;
 
+import java.awt.Color;
 import java.net.URI;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+import java.util.List;
 
+import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.StringTranslate;
 
 public class GuiUpdates extends GuiScreen
@@ -21,7 +23,16 @@ public class GuiUpdates extends GuiScreen
 	private GuiButton buttonOpenUpdateUrl;
 	private GuiButton buttonUpdate;
 	
+	public boolean isDownloading = false;
+	
     private int selectedMod;
+    
+    private int downloadPercentage = -1;
+    private String text = "";
+    private boolean flashing = false;
+    private int tickcounter = 0;
+    private boolean visable = true;
+    
     public GuiUpdates(GuiScreen parentGui)
     {
         this.parentScreen = parentGui;
@@ -57,45 +68,36 @@ public class GuiUpdates extends GuiScreen
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
+    
+    public void updateScreen() 
+    {
+    	if((UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0))
+    	{
+    		for(Object button : this.buttonList)
+    		{
+    			if(button instanceof GuiButton && ((GuiButton) button).id == 0 && ((GuiButton) button).displayString.matches(StringTranslate.getInstance().translateKey("gui.cancel")))
+    			{
+    				((GuiButton)button).displayString = "Shutdown Minecraft";
+    			}
+    		}
+    	}
+    	if(this.flashing)
+    	{
+    		this.tickcounter++;
+    		if(this.tickcounter >= 15)
+    		{
+    			this.tickcounter = 0;
+    			this.visable = !this.visable;
+    		}
+    	}
+    }
 	
     public void drawScreen(int par1, int par2, float par3)
     {
         this.guiModSlot.drawScreen(par1, par2, par3);
         this.drawCenteredString(this.fontRenderer, "XEliteZ Update Utility", this.width / 2, 20, 16777215);
+        this.drawDownloadBar();
         super.drawScreen(par1, par2, par3);
-        for(Object obj : buttonList)
-        {
-        	if(obj instanceof GuiButton && ((GuiButton) obj).id == 2)
-        	{
-        		GuiButton button = (GuiButton)obj;
-        		if(par1 > button.xPosition && par1 < button.xPosition + 72 && par2 > button.yPosition && par2 < button.yPosition + 20)
-        		{
-        	        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        	        RenderHelper.disableStandardItemLighting();
-        	        GL11.glDisable(GL11.GL_LIGHTING);
-        	        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        	        int var4 = this.fontRenderer.getStringWidth("Currently not available");
-        	        int var5 = par1 + 12;
-        	        int var6 = par2 - 12;
-        	        byte var8 = 8;
-        	        this.zLevel = 300.0F;
-        	        int var9 = -267386864;
-        	        this.drawGradientRect(var5 - 3, var6 - 4, var5 + var4 + 3, var6 - 3, var9, var9);
-        	        this.drawGradientRect(var5 - 3, var6 + var8 + 3, var5 + var4 + 3, var6 + var8 + 4, var9, var9);
-        	        this.drawGradientRect(var5 - 3, var6 - 3, var5 + var4 + 3, var6 + var8 + 3, var9, var9);
-        	        this.drawGradientRect(var5 - 4, var6 - 3, var5 - 3, var6 + var8 + 3, var9, var9);
-        	        this.drawGradientRect(var5 + var4 + 3, var6 - 3, var5 + var4 + 4, var6 + var8 + 3, var9, var9);
-        	        int var10 = 1347420415;
-        	        int var11 = (var10 & 16711422) >> 1 | var10 & -16777216;
-        	        this.drawGradientRect(var5 - 3, var6 - 3 + 1, var5 - 3 + 1, var6 + var8 + 3 - 1, var10, var11);
-        	        this.drawGradientRect(var5 + var4 + 2, var6 - 3 + 1, var5 + var4 + 3, var6 + var8 + 3 - 1, var10, var11);
-        	        this.drawGradientRect(var5 - 3, var6 - 3, var5 + var4 + 3, var6 - 3 + 1, var10, var10);
-        	        this.drawGradientRect(var5 - 3, var6 + var8 + 2, var5 + var4 + 3, var6 + var8 + 3, var11, var11);
-        	        this.fontRenderer.drawStringWithShadow("Currently not available", var5, var6, -1);
-        	        this.zLevel = 0.0F;
-        		}
-        	}
-        }
     }
     
     public void initGui()
@@ -117,13 +119,28 @@ public class GuiUpdates extends GuiScreen
         this.buttonUpdate.enabled = false;
     }
     
+    
+    
     protected void actionPerformed(GuiButton par1GuiButton)
     {
         if (par1GuiButton.enabled)
         {
             if (par1GuiButton.id == 0)
             {
-                this.mc.displayGuiScreen(this.parentScreen);
+            	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
+            	{
+            		if(this.mc.theWorld != null)
+            		{
+                        this.mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
+                        this.mc.theWorld.sendQuittingDisconnectingPacket();
+                        this.mc.loadWorld((WorldClient)null);
+            		}
+            		this.mc.shutdown();
+            	}
+            	else
+            	{
+                    this.mc.displayGuiScreen(this.parentScreen);
+            	}
             }
             else if(par1GuiButton.id == 1)
             {
@@ -139,6 +156,10 @@ public class GuiUpdates extends GuiScreen
                     var4.printStackTrace();
                 }
             }
+            else if(par1GuiButton.id == 2)
+            {
+            	Downloader.download(this, selectedMod);
+            }
             else if(par1GuiButton.id == 3)
             {
             	UpdateRegistry.instance().checkForUpdates();
@@ -148,6 +169,63 @@ public class GuiUpdates extends GuiScreen
                 this.guiModSlot.actionPerformed(par1GuiButton);
             }
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+	public void setDownloading(boolean b)
+    {
+    	this.isDownloading = b;
+    	this.buttonUpdate.enabled = !b;
+    	this.buttonOpenUpdateUrl.enabled = !b;
+    	for(GuiButton button : (List<GuiButton>)buttonList)
+    	{
+    		if(button.id == 0)
+    		{
+    			button.enabled = !b;
+    		}
+    	}
+    }
+    
+    protected void keyTyped(char par1, int par2)
+    {
+        if (par2 == 1 && !this.isDownloading)
+        {
+        	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
+        	{
+        		if(this.mc.theWorld != null)
+        		{
+                    this.mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
+                    this.mc.theWorld.sendQuittingDisconnectingPacket();
+                    this.mc.loadWorld((WorldClient)null);
+        		}
+        		this.mc.shutdown();
+        	}
+            this.mc.displayGuiScreen((GuiScreen)null);
+            this.mc.setIngameFocus();
+        }
+    }
+    
+    public void updateDownloadBar(int percentage, String Text, boolean flashing)
+    {
+    	this.downloadPercentage = percentage;
+    	this.text = Text;
+    	this.flashing = flashing;
+    	this.tickcounter = 0;
+    	this.visable = true;
+    }
+    
+    @SuppressWarnings("static-access")
+	private void drawDownloadBar()
+    {
+    	if(this.downloadPercentage >= 0)
+    	{
+    		this.drawRect(this.width / 2 - 150, this.height - 17, this.width / 2 - 150 + 100 * 3, this.height - 5, Color.RED.getRGB());
+    		this.drawRect(this.width / 2 - 150, this.height - 17, this.width / 2 - 150 + this.downloadPercentage * 3, this.height - 5, Color.GREEN.getRGB());
+    		if(this.visable || !this.flashing)
+    		{
+    			this.drawCenteredString(fontRenderer, text, this.width / 2, this.height - 15, 16777215);
+    		}
+    	}
     }
     
     public Minecraft getMC()
