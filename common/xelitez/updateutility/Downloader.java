@@ -129,9 +129,16 @@ public class Downloader
 			reader.close();
 			writer.close();
 			
-			UpdaterThread.filesToMove.add(file);
+			if(UpdateRegistry.instance().getMod(mod).update.isCoreMod())
+			{
+				UpdaterThread.coreFilesToMove.add(file);
+			}
+			else
+			{
+				UpdaterThread.filesToMove.add(file);
+			}
 			UpdaterThread.stringsToLookFor.add(UpdateRegistry.instance().getMod(mod).update.stringToDelete());
-			gui.updateDownloadBar(100, new StringBuilder().append("Download complete (").append(totalBytesRead / 1000).append(" kB) - Requires Minecraft to restart").toString(), false);
+			gui.updateDownloadBar(100, new StringBuilder().append("Download complete (").append(totalBytesRead / 1024).append(" kB) - Requires Minecraft to restart").toString(), false);
 		}
 		catch (Exception e) 
 		{

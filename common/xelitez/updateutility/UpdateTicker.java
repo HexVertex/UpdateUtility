@@ -14,6 +14,9 @@ public class UpdateTicker implements ITickHandler
 {
 	private static UpdateTicker instance = new UpdateTicker();
 	
+	public boolean drawMainMenuButton = true;
+	
+	
 	public static UpdateTicker getInstance()
 	{
 		return instance;
@@ -28,7 +31,7 @@ public class UpdateTicker implements ITickHandler
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) 
 	{
-		if(type.contains(TickType.RENDER))
+		if(type.contains(TickType.RENDER) && drawMainMenuButton)
 		{
 			if(FMLClientHandler.instance().getClient().currentScreen != null && FMLClientHandler.instance().getClient().currentScreen instanceof GuiMainMenu)
 			{

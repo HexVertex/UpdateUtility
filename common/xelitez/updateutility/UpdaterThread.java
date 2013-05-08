@@ -14,6 +14,7 @@ public class UpdaterThread
 {
 	public static List<String> stringsToLookFor = new ArrayList<String>();
 	public static List<File> filesToMove = new ArrayList<File>();
+	public static List<File> coreFilesToMove = new ArrayList<File>();
 	
 	public static enum OS
 	{
@@ -75,7 +76,7 @@ public class UpdaterThread
     		{
     			do
     			{
-    				if(FMLCommonHandler.instance().getSide().isClient() && !FMLClientHandler.instance().getClient().running)
+    				if(FMLCommonHandler.instance().getSide().isClient() && !FMLClientHandler.instance().getClient().running && (stringsToLookFor.size() > 0 || filesToMove.size() > 0 || coreFilesToMove.size() > 0))
     				{
     					try
     					{
@@ -111,6 +112,17 @@ public class UpdaterThread
 		    					}
 		    					strings.add(files.substring(0, files.length() - 1));
 	    					}
+	    					if(coreFilesToMove.size() != 0)
+	    					{
+		    					strings.add("-mc");
+		    					String files = "";
+		    					for(File f : coreFilesToMove)
+		    					{
+		    						files += f.getCanonicalPath().replaceAll("\\\\", "/");
+		    						files += ",";
+		    					}
+		    					strings.add(files.substring(0, files.length() - 1));
+	    					}
 	    					ProcessBuilder localProcessBuilder = new ProcessBuilder(strings);
 	    					Process localProcess = localProcessBuilder.start();
 	    					if (localProcess == null) throw new Exception("!");
@@ -126,15 +138,4 @@ public class UpdaterThread
 		}.start();
 	}
 	
-	public static boolean deleteAll(File file)
-	{
-		while(file.isDirectory() && file.list().length > 0)
-		{
-			for(File f : file.listFiles())
-			{
-				deleteAll(f);
-			}
-		}
-		return file.delete();
-	}
 }

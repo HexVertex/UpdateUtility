@@ -71,7 +71,7 @@ public class GuiUpdates extends GuiScreen
     
     public void updateScreen() 
     {
-    	if((UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0))
+    	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0 || UpdaterThread.coreFilesToMove.size() > 0)
     	{
     		for(Object button : this.buttonList)
     		{
@@ -127,7 +127,7 @@ public class GuiUpdates extends GuiScreen
         {
             if (par1GuiButton.id == 0)
             {
-            	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
+            	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0 || UpdaterThread.coreFilesToMove.size() > 0)
             	{
             		if(this.mc.theWorld != null)
             		{
@@ -190,7 +190,7 @@ public class GuiUpdates extends GuiScreen
     {
         if (par2 == 1 && !this.isDownloading)
         {
-        	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
+        	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0 || UpdaterThread.coreFilesToMove.size() > 0)
         	{
         		if(this.mc.theWorld != null)
         		{
