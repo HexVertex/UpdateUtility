@@ -15,6 +15,7 @@ public class UpdateTicker implements ITickHandler
 	private static UpdateTicker instance = new UpdateTicker();
 	
 	public boolean drawMainMenuButton = true;
+	public int mainMenuButtonMode = 0;
 	
 	
 	public static UpdateTicker getInstance()
@@ -45,27 +46,55 @@ public class UpdateTicker implements ITickHandler
 	            int height = 20;
 	            int xPosition = var13.getScaledWidth() / 2 + 104;
 	            int yPosition = var13.getScaledHeight() / 4 + 96;
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture("/xelitez/updateutility/buttonrefresh.png"));
-				
 	            boolean var4 = var16 >= xPosition && var17 >= yPosition && var16 < xPosition + width && var17 < yPosition + height;
 	            int var5 = 0;
 	            int var6 = 20;
-
-	            if (var4)
-	            {
-	                var5 += height;
-	            }
-	            
-	            if (UpdateRegistry.instance().getNumberOfModUpdatesAvailable() > 0)
-	            {
-	            	var6 += 20;
-	            }
-				gui.drawTexturedModalRect(xPosition, yPosition, var6, var5, width, height);
-	            gui.drawCenteredString(FMLClientHandler.instance().getClient().fontRenderer, new StringBuilder().append(UpdateRegistry.instance().getNumberOfModUpdatesAvailable()).toString(), xPosition + 17 + width / 2, yPosition + (height - 8) / 2, 0xffffff);
-				if(Mouse.isButtonDown(0) && var4)
+				switch(mainMenuButtonMode)
 				{
-					FMLClientHandler.instance().getClient().sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-					FMLClientHandler.instance().displayGuiScreen(FMLClientHandler.instance().getClient().thePlayer, new GuiUpdates(gui));
+				case 0:
+
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture("/xelitez/updateutility/buttonrefresh.png"));
+					
+		            if (var4)
+		            {
+		                var5 += height;
+		            }
+		            
+		            if (UpdateRegistry.instance().getNumberOfModUpdatesAvailable() > 0)
+		            {
+		            	var6 += 20;
+		            }
+					gui.drawTexturedModalRect(xPosition, yPosition, var6, var5, width, height);
+		            gui.drawCenteredString(FMLClientHandler.instance().getClient().fontRenderer, new StringBuilder().append(UpdateRegistry.instance().getNumberOfModUpdatesAvailable()).toString(), xPosition + 17 + width / 2, yPosition + (height - 8) / 2, 0xffffff);
+					if(Mouse.isButtonDown(0) && var4)
+					{
+						FMLClientHandler.instance().getClient().sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+						FMLClientHandler.instance().displayGuiScreen(FMLClientHandler.instance().getClient().thePlayer, new GuiUpdates(gui));
+					}
+					break;
+				case 1:
+					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture("/xelitez/updateutility/buttonrefresh.png"));
+					xPosition = var13.getScaledWidth() - 55;
+					yPosition = 4;
+					var4 = var16 >= xPosition && var17 >= yPosition && var16 < xPosition + width && var17 < yPosition + height;
+					
+		            if (var4)
+		            {
+		                var5 += height;
+		            }
+		            
+		            if (UpdateRegistry.instance().getNumberOfModUpdatesAvailable() > 0)
+		            {
+		            	var6 += 20;
+		            }
+					gui.drawTexturedModalRect(xPosition, yPosition, var6, var5, width, height);
+		            gui.drawCenteredString(FMLClientHandler.instance().getClient().fontRenderer, new StringBuilder().append(UpdateRegistry.instance().getNumberOfModUpdatesAvailable()).toString(), xPosition + 17 + width / 2, yPosition + (height - 8) / 2, 0xffffff);
+					if(Mouse.isButtonDown(0) && var4)
+					{
+						FMLClientHandler.instance().getClient().sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+						FMLClientHandler.instance().displayGuiScreen(FMLClientHandler.instance().getClient().thePlayer, new GuiUpdates(gui));
+					}
+					break;
 				}
 			}
 		}

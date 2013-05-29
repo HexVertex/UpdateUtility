@@ -14,7 +14,7 @@ public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
     public static int minorVersion = 1;
-    public static int majorBuild = 2;
+    public static int majorBuild = 3;
     public static String MC = "MC:1.5.2";
     
     public static String newVersion;
