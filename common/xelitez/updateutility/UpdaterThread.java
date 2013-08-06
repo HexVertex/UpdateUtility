@@ -49,7 +49,7 @@ public class UpdaterThread
 			{
 				fu.delete();
 			}
-			source = UpdaterThread.class.getResourceAsStream("/xelitez/FileUtility.jar");
+			source = UpdaterThread.class.getResourceAsStream("assets/uu/xelitez/FileUtility.jar");
 			destination = new FileOutputStream(fu);
 			byte[] buffer = new byte[153600];
 			int bytesRead = 0;

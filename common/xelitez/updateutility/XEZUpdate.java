@@ -4,6 +4,7 @@ import java.io.File;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.*;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -24,7 +25,7 @@ public class XEZUpdate
 	
 	public Configuration c;
 	
-	@PreInit
+	@EventHandler
     public void preload(FMLPreInitializationEvent evt)
     {
 		evt.getModMetadata().version = Version.getVersion() + " for " + Version.MC;
@@ -39,37 +40,40 @@ public class XEZUpdate
 		UpdateRegistry.addMod(this, new Version());
     }
 	
-	@PostInit
+	@EventHandler
     public void postload(FMLPostInitializationEvent evt)
     {
-		try
+		if(FMLCommonHandler.instance().getSide().isClient())
 		{
-			c.load();
-			
-			UpdateTicker.getInstance().drawMainMenuButton = c.get(Configuration.CATEGORY_GENERAL, "renderMainMenuButton", true).getBoolean(true);
-			int drawMode = 0;
 			try
 			{
-				if(UpdateTicker.getInstance().drawMainMenuButton)
-				{
-					Class.forName("com.thevoxelbox.voxelmenu.GuiMainMenuVoxelBox");
-					drawMode = 1;
-				}
-			}
-			catch(Exception e)
-			{
+				c.load();
 				
+				UpdateTicker.getInstance().drawMainMenuButton = c.get(Configuration.CATEGORY_GENERAL, "renderMainMenuButton", true).getBoolean(true);
+				int drawMode = 0;
+				try
+				{
+					if(UpdateTicker.getInstance().drawMainMenuButton)
+					{
+						Class.forName("com.thevoxelbox.voxelmenu.GuiMainMenuVoxelBox");
+						drawMode = 1;
+					}
+				}
+				catch(Exception e)
+				{
+					
+				}
+				Property DrawMenuMode = c.get(Configuration.CATEGORY_GENERAL, "mainMenuButtonMode", drawMode);
+				DrawMenuMode.comment = "0=Vanilla Minecraft Main Menu; 1=VoxelMenu";
+				UpdateTicker.getInstance().mainMenuButtonMode = DrawMenuMode.getInt(drawMode);
+				
+			} 
+			catch(Exception e) {
+				e.printStackTrace();
 			}
-			Property DrawMenuMode = c.get(Configuration.CATEGORY_GENERAL, "mainMenuButtonMode", drawMode);
-			DrawMenuMode.comment = "0=Vanilla Minecraft Main Menu; 1=VoxelMenu";
-			UpdateTicker.getInstance().mainMenuButtonMode = DrawMenuMode.getInt(drawMode);
-			
-		} 
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			c.save();
+			finally {
+				c.save();
+			}
 		}
 		UpdateRegistry.instance().checkForUpdates();
 		if(evt.getSide().isClient())

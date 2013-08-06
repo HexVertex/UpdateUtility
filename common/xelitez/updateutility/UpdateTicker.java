@@ -3,9 +3,8 @@ package xelitez.updateutility;
 import java.util.EnumSet;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.gui.*;
+import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
@@ -17,6 +16,7 @@ public class UpdateTicker implements ITickHandler
 	public boolean drawMainMenuButton = true;
 	public int mainMenuButtonMode = 0;
 	
+    private static final ResourceLocation texture = new ResourceLocation("uu:xelitez/updateutility/buttonrefresh.png");
 	
 	public static UpdateTicker getInstance()
 	{
@@ -53,7 +53,7 @@ public class UpdateTicker implements ITickHandler
 				{
 				case 0:
 
-					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture("/xelitez/updateutility/buttonrefresh.png"));
+					FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(texture);
 					
 		            if (var4)
 		            {
@@ -73,7 +73,7 @@ public class UpdateTicker implements ITickHandler
 					}
 					break;
 				case 1:
-					GL11.glBindTexture(GL11.GL_TEXTURE_2D, FMLClientHandler.instance().getClient().renderEngine.getTexture("/xelitez/updateutility/buttonrefresh.png"));
+					FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(texture);
 					xPosition = var13.getScaledWidth() - 55;
 					yPosition = 4;
 					var4 = var16 >= xPosition && var17 >= yPosition && var16 < xPosition + width && var17 < yPosition + height;

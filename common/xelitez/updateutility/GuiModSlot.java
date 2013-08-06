@@ -6,6 +6,7 @@ import xelitez.updateutility.UpdateRegistry.ModInstance;
 
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiModSlot extends GuiSlot
 {
@@ -68,7 +69,8 @@ public class GuiModSlot extends GuiSlot
 	@Override
 	protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5) 
 	{
-		this.parentUpdateGui.getMC().renderEngine.bindTexture((UpdateRegistry.instance().getMod(par1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(par1).update.getModIcon() : "/xelitez/updateutility/default_icon.png"));
+	    ResourceLocation texture = new ResourceLocation(UpdateRegistry.instance().getMod(par1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(par1).update.getModIcon() : "uu:xelitez/updateutility/default_icon.png");
+		this.parentUpdateGui.getMC().func_110434_K().func_110577_a(texture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         par5.startDrawingQuads();
         par5.setColorOpaque_I(16777215);

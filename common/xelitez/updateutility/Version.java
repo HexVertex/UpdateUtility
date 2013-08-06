@@ -14,8 +14,8 @@ public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
     public static int minorVersion = 1;
-    public static int majorBuild = 3;
-    public static String MC = "MC:1.5.2";
+    public static int majorBuild = 4;
+    public static String MC = "MC:1.6.2";
     
     public static String newVersion;
     public static boolean available = false;
@@ -128,7 +128,7 @@ public class Version implements IXEZUpdate
 				}
 			}
 		}
-		
+		available = false;
 		if ((!getVersion().matches(produceVersion(MV, mV, MB)) || !MC.matches("MC:" + NMC)) && !produceVersion(MV, mV, MB).matches("0"))
 		{
 			if (!MC.matches("MC:" + NMC) || !getVersion().matches(produceVersion(MV, mV, MB)))
@@ -160,7 +160,7 @@ public class Version implements IXEZUpdate
 	@Override
 	public String getModIcon() 
 	{
-		return "/xelitez/updateutility/xezmods.png";
+		return "uu:xelitez/updateutility/xezmods.png";
 	}
 
 	@Override
