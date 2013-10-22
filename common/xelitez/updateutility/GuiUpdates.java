@@ -75,7 +75,7 @@ public class GuiUpdates extends GuiScreen
     	{
     		for(Object button : this.buttonList)
     		{
-    			if(button instanceof GuiButton && ((GuiButton) button).id == 0 && ((GuiButton) button).displayString.matches(I18n.func_135053_a("gui.cancel")))
+    			if(button instanceof GuiButton && ((GuiButton) button).id == 0 && ((GuiButton) button).displayString.matches(I18n.getString("gui.cancel")))
     			{
     				((GuiButton)button).displayString = "Shutdown Minecraft";
     			}
@@ -110,10 +110,10 @@ public class GuiUpdates extends GuiScreen
     @SuppressWarnings("unchecked")
 	public void initButtons()
     {
-        this.buttonList.add(this.buttonOpenUpdateUrl = new GuiButton(1, this.width / 2 - 88, this.height - 40, 90, 20, I18n.func_135053_a("Open Update Url")));
-        this.buttonList.add(this.buttonUpdate = new GuiButton(2, this.width / 2 - 165, this.height - 40, 72, 20, I18n.func_135053_a("Update")));
+        this.buttonList.add(this.buttonOpenUpdateUrl = new GuiButton(1, this.width / 2 - 88, this.height - 40, 90, 20, I18n.getString("Open Update Url")));
+        this.buttonList.add(this.buttonUpdate = new GuiButton(2, this.width / 2 - 165, this.height - 40, 72, 20, I18n.getString("Update")));
         this.buttonList.add(new GuiButtonRefresh(3, this.width / 2 + 150, 7));
-        this.buttonList.add(new GuiButton(0, this.width / 2 + 15, this.height - 40, 150, 20, I18n.func_135053_a("gui.cancel")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 15, this.height - 40, 150, 20, I18n.getString("gui.cancel")));
         this.buttonOpenUpdateUrl.enabled = false;
         this.buttonUpdate.enabled = false;
     }

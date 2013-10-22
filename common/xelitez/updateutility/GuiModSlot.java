@@ -70,7 +70,7 @@ public class GuiModSlot extends GuiSlot
 	protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5) 
 	{
 	    ResourceLocation texture = new ResourceLocation(UpdateRegistry.instance().getMod(par1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(par1).update.getModIcon() : "uu:xelitez/updateutility/default_icon.png");
-		this.parentUpdateGui.getMC().func_110434_K().func_110577_a(texture);
+		this.parentUpdateGui.getMC().getTextureManager().bindTexture(texture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         par5.startDrawingQuads();
         par5.setColorOpaque_I(16777215);

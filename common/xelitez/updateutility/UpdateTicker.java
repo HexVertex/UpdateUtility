@@ -53,7 +53,7 @@ public class UpdateTicker implements ITickHandler
 				{
 				case 0:
 
-					FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(texture);
+					FMLClientHandler.instance().getClient().getTextureManager().bindTexture(texture);
 					
 		            if (var4)
 		            {
@@ -73,7 +73,7 @@ public class UpdateTicker implements ITickHandler
 					}
 					break;
 				case 1:
-					FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(texture);
+					FMLClientHandler.instance().getClient().getTextureManager().bindTexture(texture);
 					xPosition = var13.getScaledWidth() - 55;
 					yPosition = 4;
 					var4 = var16 >= xPosition && var17 >= yPosition && var16 < xPosition + width && var17 < yPosition + height;
