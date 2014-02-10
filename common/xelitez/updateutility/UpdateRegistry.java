@@ -2,7 +2,8 @@ package xelitez.updateutility;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ModContainer;
@@ -25,7 +26,7 @@ public class UpdateRegistry
 			ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
 			if(mc == null)
 			{
-				XEZLog.log(Level.WARNING, new StringBuilder().append("Invalid mod trying to add(").append(mod).append(")").toString());
+				XEZLog.log(Level.WARN, new StringBuilder().append("Invalid mod trying to add(").append(mod).append(")").toString());
 			}
 			else
 			{
@@ -38,11 +39,11 @@ public class UpdateRegistry
 			ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
 			if(mc == null)
 			{
-				XEZLog.log(Level.WARNING, new StringBuilder().append("Invalid mod trying to add(").append(mod).append(")").toString());
+				XEZLog.log(Level.WARN, new StringBuilder().append("Invalid mod trying to add(").append(mod).append(")").toString());
 			}
 			else
 			{
-				XEZLog.log(Level.WARNING, "The mod " + mc.getName() + " does not provide a valid upadate class");
+				XEZLog.log(Level.WARN, "The mod " + mc.getName() + " does not provide a valid upadate class");
 			}
 		}
 	}

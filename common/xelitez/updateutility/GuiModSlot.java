@@ -25,7 +25,7 @@ public class GuiModSlot extends GuiSlot
 	}
 
 	@Override
-	protected void elementClicked(int var1, boolean var2) 
+	protected void elementClicked(int var1, boolean var2, int var3, int var4) 
 	{
 		if(!parentUpdateGui.isDownloading)
 		{
@@ -67,23 +67,23 @@ public class GuiModSlot extends GuiSlot
 	}
 
 	@Override
-	protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5) 
+	protected void drawSlot(int var1, int var2, int var3, int var4, Tessellator var5, int var6, int var7)
 	{
-	    ResourceLocation texture = new ResourceLocation(UpdateRegistry.instance().getMod(par1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(par1).update.getModIcon() : "uu:xelitez/updateutility/default_icon.png");
+	    ResourceLocation texture = new ResourceLocation(UpdateRegistry.instance().getMod(var1).update.getModIcon() != null ? UpdateRegistry.instance().getMod(var1).update.getModIcon() : "uu:xelitez/updateutility/default_icon.png");
 		this.parentUpdateGui.getMC().getTextureManager().bindTexture(texture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        par5.startDrawingQuads();
-        par5.setColorOpaque_I(16777215);
-        par5.addVertexWithUV((double)par2, (double)(par3 + par4), 0.0D, 0.0D, 1.0D);
-        par5.addVertexWithUV((double)(par2 + 32), (double)(par3 + par4), 0.0D, 1.0D, 1.0D);
-        par5.addVertexWithUV((double)(par2 + 32), (double)par3, 0.0D, 1.0D, 0.0D);
-        par5.addVertexWithUV((double)par2, (double)par3, 0.0D, 0.0D, 0.0D);
-        par5.draw();
-        ModInstance mod = UpdateRegistry.instance().getMod(par1);
-        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), mod.mod.getName(), par2 + 32 + 2, par3 + 1, 16777215);
-        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Current version: " + (mod.update.getCurrentVersion() != null ? mod.update.getCurrentVersion() : ""), par2 + 32 + 2, par3 + 12, 8421504);
+        var5.startDrawingQuads();
+        var5.setColorOpaque_I(16777215);
+        var5.addVertexWithUV((double)var2, (double)(var3 + var4), 0.0D, 0.0D, 1.0D);
+        var5.addVertexWithUV((double)(var2 + 32), (double)(var3 + var4), 0.0D, 1.0D, 1.0D);
+        var5.addVertexWithUV((double)(var2 + 32), (double)var3, 0.0D, 1.0D, 0.0D);
+        var5.addVertexWithUV((double)var2, (double)var3, 0.0D, 0.0D, 0.0D);
+        var5.draw();
+        ModInstance mod = UpdateRegistry.instance().getMod(var1);
+        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), mod.mod.getName(), var2 + 32 + 2, var3 + 1, 16777215);
+        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Current version: " + (mod.update.getCurrentVersion() != null ? mod.update.getCurrentVersion() : ""), var2 + 32 + 2, var3 + 12, 8421504);
         String color = mod.update.isUpdateAvailable() ? "\u00a7c" : "\u00a7a";
-        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Latest version: " + color + (mod.update.getNewVersion() != null ? mod.update.getNewVersion() : ""), par2 + 32 + 2, par3 + 12 + 10, 8421504);
+        this.parentUpdateGui.drawString(GuiUpdates.getFontRenderer(parentUpdateGui), "Latest version: " + color + (mod.update.getNewVersion() != null ? mod.update.getNewVersion() : ""), var2 + 32 + 2, var3 + 12 + 10, 8421504);
         
 	}
 

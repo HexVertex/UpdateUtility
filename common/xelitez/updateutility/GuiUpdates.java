@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -12,7 +13,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.stats.StatList;
 
 public class GuiUpdates extends GuiScreen
 {
@@ -71,13 +71,13 @@ public class GuiUpdates extends GuiScreen
     
     public void updateScreen() 
     {
-    	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0 || UpdaterThread.coreFilesToMove.size() > 0)
+    	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
     	{
     		for(Object button : this.buttonList)
     		{
-    			if(button instanceof GuiButton && ((GuiButton) button).id == 0 && ((GuiButton) button).displayString.matches(I18n.getString("gui.cancel")))
+    			if(button instanceof GuiButton && ((GuiButton) button).id == 0 && ((GuiButton) button).displayString.matches(I18n.format("gui.cancel", new Object[0])))
     			{
-    				((GuiButton)button).displayString = "Shutdown Minecraft";
+    				((GuiButton)button).displayString = "Shutdown Minecraft and Update";
     			}
     		}
     	}
@@ -95,7 +95,7 @@ public class GuiUpdates extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         this.guiModSlot.drawScreen(par1, par2, par3);
-        this.drawCenteredString(this.fontRenderer, "XEliteZ Update Utility", this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRendererObj, "XEliteZ Update Utility", this.width / 2, 20, 16777215);
         this.drawDownloadBar();
         super.drawScreen(par1, par2, par3);
     }
@@ -110,10 +110,10 @@ public class GuiUpdates extends GuiScreen
     @SuppressWarnings("unchecked")
 	public void initButtons()
     {
-        this.buttonList.add(this.buttonOpenUpdateUrl = new GuiButton(1, this.width / 2 - 88, this.height - 40, 90, 20, I18n.getString("Open Update Url")));
-        this.buttonList.add(this.buttonUpdate = new GuiButton(2, this.width / 2 - 165, this.height - 40, 72, 20, I18n.getString("Update")));
+        this.buttonList.add(this.buttonOpenUpdateUrl = new GuiButton(1, this.width / 2 - 88, this.height - 40, 90, 20, I18n.format("Open Update Url", new Object[0])));
+        this.buttonList.add(this.buttonUpdate = new GuiButton(2, this.width / 2 - 165, this.height - 40, 72, 20, I18n.format("Update", new Object[0])));
         this.buttonList.add(new GuiButtonRefresh(3, this.width / 2 + 150, 7));
-        this.buttonList.add(new GuiButton(0, this.width / 2 + 15, this.height - 40, 150, 20, I18n.getString("gui.cancel")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 + 15, this.height - 40, 150, 20, I18n.format("gui.cancel", new Object[0])));
         this.buttonOpenUpdateUrl.enabled = false;
         this.buttonUpdate.enabled = false;
     }
@@ -126,14 +126,15 @@ public class GuiUpdates extends GuiScreen
         {
             if (par1GuiButton.id == 0)
             {
-            	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0 || UpdaterThread.coreFilesToMove.size() > 0)
+            	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
             	{
             		if(this.mc.theWorld != null)
             		{
-                        this.mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
+            			par1GuiButton.enabled = false;
                         this.mc.theWorld.sendQuittingDisconnectingPacket();
                         this.mc.loadWorld((WorldClient)null);
             		}
+            		UpdaterThread.runCopier();
             		this.mc.shutdown();
             	}
             	else
@@ -189,14 +190,14 @@ public class GuiUpdates extends GuiScreen
     {
         if (par2 == 1 && !this.isDownloading)
         {
-        	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0 || UpdaterThread.coreFilesToMove.size() > 0)
+        	if(UpdaterThread.stringsToLookFor.size() > 0 || UpdaterThread.filesToMove.size() > 0)
         	{
         		if(this.mc.theWorld != null)
         		{
-                    this.mc.statFileWriter.readStat(StatList.leaveGameStat, 1);
                     this.mc.theWorld.sendQuittingDisconnectingPacket();
                     this.mc.loadWorld((WorldClient)null);
         		}
+        		UpdaterThread.runCopier();
         		this.mc.shutdown();
         	}
             this.mc.displayGuiScreen((GuiScreen)null);
@@ -222,7 +223,7 @@ public class GuiUpdates extends GuiScreen
     		this.drawRect(this.width / 2 - 150, this.height - 17, this.width / 2 - 150 + this.downloadPercentage * 3, this.height - 5, Color.GREEN.getRGB());
     		if(this.visable || !this.flashing)
     		{
-    			this.drawCenteredString(fontRenderer, text, this.width / 2, this.height - 15, 16777215);
+    			this.drawCenteredString(this.fontRendererObj, text, this.width / 2, this.height - 15, 16777215);
     		}
     	}
     }
@@ -254,6 +255,6 @@ public class GuiUpdates extends GuiScreen
     
     static FontRenderer getFontRenderer(GuiUpdates par0GuiUpdates)
     {
-    	return par0GuiUpdates.fontRenderer;
+    	return par0GuiUpdates.fontRendererObj;
     }
 }

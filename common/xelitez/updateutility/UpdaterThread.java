@@ -6,15 +6,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 
 public class UpdaterThread
 {
 	public static List<String> stringsToLookFor = new ArrayList<String>();
 	public static List<File> filesToMove = new ArrayList<File>();
-	public static List<File> coreFilesToMove = new ArrayList<File>();
 	
 	public static enum OS
 	{
@@ -49,7 +46,11 @@ public class UpdaterThread
 			{
 				fu.delete();
 			}
-			source = UpdaterThread.class.getResourceAsStream("assets/uu/xelitez/FileUtility.jar");
+			source = UpdaterThread.class.getResourceAsStream("/assets/uu/xelitez/FileUtility.jar");
+			if(source == null)
+			{
+				throw new Exception("Failed to copy XEliteZ File Utility, please report this error to the mod developper");
+			}
 			destination = new FileOutputStream(fu);
 			byte[] buffer = new byte[153600];
 			int bytesRead = 0;
@@ -65,77 +66,61 @@ public class UpdaterThread
 	            destination.close();
 	        }
 			fu.setExecutable(true);
+			XEZLog.info("Successfully copied XEliteZ FileUtility");
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			return;
 		}
-		new Thread()
+	}
+	
+	public static void runCopier()
+	{
+		if(stringsToLookFor.size() > 0 || filesToMove.size() > 0)
 		{
-    		public void run()
-    		{
-    			do
-    			{
-    				if(FMLCommonHandler.instance().getSide().isClient() && !FMLClientHandler.instance().getClient().running && (stringsToLookFor.size() > 0 || filesToMove.size() > 0 || coreFilesToMove.size() > 0))
-    				{
-    					try
-    					{
-    						
-	    					String baseDir = ((File)FMLInjectionData.data()[6]).getCanonicalPath().replaceAll("\\\\", "/");
-	    					
-	    					ArrayList<String> strings = new ArrayList<String>();
-	    					
-	    					strings.add("java");
-	    					strings.add("-jar");
-	    					strings.add(baseDir + "/XEliteZ/FileUtility.jar");
-	    					strings.add("-f");
-	    					strings.add(baseDir);
-	    					if(stringsToLookFor.size() != 0)
-	    					{
-		    					strings.add("-s");
-		    					String filesToRemove = "";
-		    					for(String str : stringsToLookFor)
-		    					{
-		    						filesToRemove += str;
-		    						filesToRemove += ",";
-		    					}
-		    					strings.add(filesToRemove.substring(0, filesToRemove.length() - 1));
-	    					}
-	    					if(filesToMove.size() != 0)
-	    					{
-		    					strings.add("-m");
-		    					String files = "";
-		    					for(File f : filesToMove)
-		    					{
-		    						files += f.getCanonicalPath().replaceAll("\\\\", "/");
-		    						files += ",";
-		    					}
-		    					strings.add(files.substring(0, files.length() - 1));
-	    					}
-	    					if(coreFilesToMove.size() != 0)
-	    					{
-		    					strings.add("-mc");
-		    					String files = "";
-		    					for(File f : coreFilesToMove)
-		    					{
-		    						files += f.getCanonicalPath().replaceAll("\\\\", "/");
-		    						files += ",";
-		    					}
-		    					strings.add(files.substring(0, files.length() - 1));
-	    					}
-	    					ProcessBuilder localProcessBuilder = new ProcessBuilder(strings);
-	    					Process localProcess = localProcessBuilder.start();
-	    					if (localProcess == null) throw new Exception("!");
-	    					break;
-    					}
-    					catch(Exception e)
-    					{
-    						e.printStackTrace();
-    					}
-    				}
-    			} while(true);
-    		}
-		}.start();
+			try
+			{
+				String baseDir = ((File)FMLInjectionData.data()[6]).getCanonicalPath().replaceAll("\\\\", "/");
+				
+				ArrayList<String> strings = new ArrayList<String>();
+				
+				strings.add("java");
+				strings.add("-jar");
+				strings.add(baseDir + "/XEliteZ/FileUtility.jar");
+				strings.add("-f");
+				strings.add(baseDir);
+				if(stringsToLookFor.size() != 0)
+				{
+					strings.add("-s");
+					String filesToRemove = "";
+					for(String str : stringsToLookFor)
+					{
+						filesToRemove += str;
+						filesToRemove += ",";
+					}
+					strings.add(filesToRemove.substring(0, filesToRemove.length() - 1));
+				}
+				if(filesToMove.size() != 0)
+				{
+					strings.add("-m");
+					String files = "";
+					for(File f : filesToMove)
+					{
+						files += f.getCanonicalPath().replaceAll("\\\\", "/");
+						files += ",";
+					}
+					strings.add(files.substring(0, files.length() - 1));
+				}
+				ProcessBuilder localProcessBuilder = new ProcessBuilder(strings);
+				Process localProcess = localProcessBuilder.start();
+				if (localProcess == null) throw new Exception("Failed to start XEliteZ File Utility");
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

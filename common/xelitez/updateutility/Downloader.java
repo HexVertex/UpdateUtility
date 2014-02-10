@@ -52,29 +52,6 @@ public class Downloader
 			    			}
 			    		}
 					}
-					if(urls.contains("adf.ly"))
-					{
-						URLConnection urlc = urltemp.openConnection();
-			    		BufferedReader in = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
-			    		String str;
-			    		
-			    		while ((str = in.readLine()) != null)
-			    		{
-			    			strings.add(str);
-			    		}
-			    		
-			    		in.close();
-			    		for(String str1 : strings)
-			    		{
-			    			if(str1.contains("var zzz ="))
-			    			{
-			    				str1 = str1.substring(str1.indexOf("var zzz = \'") + 11);
-			    				str1 = str1.substring(0, str1.indexOf("\';"));
-			    				urltemp = new URL(str1);
-			    				break;
-			    			}
-			    		}
-					}
 					url = urltemp;
 				}
 				catch(Exception e)
@@ -129,14 +106,8 @@ public class Downloader
 			reader.close();
 			writer.close();
 			
-			if(UpdateRegistry.instance().getMod(mod).update.isCoreMod())
-			{
-				UpdaterThread.coreFilesToMove.add(file);
-			}
-			else
-			{
-				UpdaterThread.filesToMove.add(file);
-			}
+			UpdaterThread.filesToMove.add(file);
+			
 			UpdaterThread.stringsToLookFor.add(UpdateRegistry.instance().getMod(mod).update.stringToDelete());
 			gui.updateDownloadBar(100, new StringBuilder().append("Download complete (").append(totalBytesRead / 1024).append(" kB) - Requires Minecraft to restart").toString(), false);
 		}

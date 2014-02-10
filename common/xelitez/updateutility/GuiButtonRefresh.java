@@ -18,7 +18,7 @@ public class GuiButtonRefresh extends GuiButton
     
     public void drawButton(Minecraft par1Minecraft, int par2, int par3)
     {
-        if (this.drawButton)
+        if (this.visible)
         {
             par1Minecraft.getTextureManager().bindTexture(texture);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
