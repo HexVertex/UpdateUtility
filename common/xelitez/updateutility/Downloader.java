@@ -31,6 +31,7 @@ public class Downloader
 				{
 			    	List<String> strings = new ArrayList<String>();
 					String urls = UpdateRegistry.instance().getMod(mod).update.getDownloadUrl();
+					if(urls.matches("")) throw new Exception("No download URL given");
 					URL urltemp = new URL(urls);
 					if(urls.contains("bit.ly"))
 					{

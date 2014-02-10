@@ -12,8 +12,6 @@ public interface IXEZUpdate
 	
 	public boolean isUpdateAvailable();
 	
-	public boolean isCoreMod();
-	
 	public String getModIcon();
 	
 	public String getUpdateUrl();

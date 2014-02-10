@@ -172,19 +172,48 @@ public class Version implements IXEZUpdate
 	@Override
 	public String getDownloadUrl() 
 	{
-		return "http://adf.ly/KLSKB";
+		List<String> strings = new ArrayList<String>();
+		
+		try
+		{
+			URL url = new URL("https://raw.github.com/XEZKalvin/UpdateUtility/master/common/xelitez/updateutility/Version.java");
+			URLConnection connect = url.openConnection();
+			connect.setConnectTimeout(5000);
+			connect.setReadTimeout(5000);
+			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+			String str;
+			
+			while ((str = in.readLine()) != null)
+			{
+				strings.add(str);
+			}
+			
+			in.close();
+		}
+		catch(Exception E)
+		{
+			XEZLog.severe("Unable to obtain download URL");
+		}
+		for (int i = 0; i < strings.size(); i++)
+		{
+			String line = "";
+			
+			if (strings.get(i) != null)
+			{
+				line = (String)strings.get(i);
+			}
+			if(line.contains("<updateutility>"))
+			{
+				return line.substring(line.indexOf("<updateutility>"), line.indexOf("</updateutility>"));
+			}
+		}
+		return null;
 	}
 
 	@Override
 	public String stringToDelete() 
 	{
 		return "UpdateUtility";
-	}
-
-	@Override
-	public boolean isCoreMod() 
-	{
-		return false;
 	}
 
 }
