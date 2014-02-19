@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(	
 		modid = "XEZUpdate",
 		name = "XEliteZ Update Utility",
-		version = "1.1")
+		version = "1.2")
 public class XEZUpdate 
 {
 	@Instance(value = "XEZUpdate")
@@ -32,9 +32,9 @@ public class XEZUpdate
 		if(evt.getSide() == Side.CLIENT)
 		{
 			ClientRegistry.registerKeyBinding(UpdateEventListener.instance.button);
+			FMLCommonHandler.instance().bus().register(UpdateEventListener.instance);
 		}
 		UpdateRegistry.addMod(this, new Version());
-		FMLCommonHandler.instance().bus().register(UpdateEventListener.instance);
     }
 	
 	@EventHandler

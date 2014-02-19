@@ -1,0 +1,16 @@
+[
+{
+  "modid": "XEZUpdate",
+  "name": "XEliteZ Update Utility",
+  "description": "The XEliteZ Update Utility was designed to make the updating of your mods easyer. Since it's fairly simple to add more mods to this utility it can support any mod that has been registered to this mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["XEZKalvin"],
+  "credits": "XEZKalvin",
+  "logoFile": "assets/uu/xelitez/updateutility/xezmods.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

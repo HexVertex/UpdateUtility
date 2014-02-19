@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class Downloader
 		guiu = guiUpdates;
 		mod = selectedMod;
 		guiu.setDownloading(true);
-		new Thread()
+		new Thread("XEZDownloader Thread")
     	{
     		public void run()
     		{
@@ -72,11 +73,7 @@ public class Downloader
 		{
 			
 			gui.updateDownloadBar(0, "Connecting...", true);
-			String strr = url.getFile()
-					.substring(url.getFile().lastIndexOf("/"))
-					.replaceAll("%5B", "[")
-					.replaceAll("%5D", "]")
-					.replaceAll("%20", " ");
+			String strr = URLDecoder.decode(url.getFile().substring(url.getFile().lastIndexOf("/")), "UTF-8");
 			if(strr.contains("?"))
 			{	
 				strr = strr.substring(0, strr.indexOf("?"));

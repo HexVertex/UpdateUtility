@@ -64,7 +64,7 @@ public class UpdateRegistry
 	
 	public void checkForUpdates()
 	{
-		new Thread()
+		new Thread("XEZUpdate Thread")
 		{
 			public void run()
 			{

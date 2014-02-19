@@ -102,7 +102,7 @@ public class UpdateEventListener
 	}
 	
 	@SubscribeEvent
-	public void onRenderTick(TickEvent.ClientTickEvent evt) 
+	public void onClientTick(TickEvent.ClientTickEvent evt) 
 	{
 		if(GameSettings.isKeyDown(button))
 		{

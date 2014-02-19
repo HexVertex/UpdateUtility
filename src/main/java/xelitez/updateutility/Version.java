@@ -13,9 +13,9 @@ import java.util.List;
 public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
-    public static int minorVersion = 1;
-    public static int majorBuild = 5;
-    public static String MC = "MC:1.6.4";
+    public static int minorVersion = 2;
+    public static int majorBuild = 7;
+    public static String MC = "MC:1.7.2";
     
     public static String newVersion;
     public static boolean available = false;
@@ -176,7 +176,7 @@ public class Version implements IXEZUpdate
 		
 		try
 		{
-			URL url = new URL("https://raw.github.com/XEZKalvin/UpdateUtility/master/common/xelitez/updateutility/Version.java");
+			URL url = new URL("https://raw2.github.com/XEZKalvin/UpdateUtility/master/updateURLstorage.txt");
 			URLConnection connect = url.openConnection();
 			connect.setConnectTimeout(5000);
 			connect.setReadTimeout(5000);
@@ -204,7 +204,7 @@ public class Version implements IXEZUpdate
 			}
 			if(line.contains("<updateutility>"))
 			{
-				return line.substring(line.indexOf("<updateutility>"), line.indexOf("</updateutility>"));
+				return line.substring(line.indexOf("<updateutility>") + 15, line.indexOf("</updateutility>"));
 			}
 		}
 		return null;

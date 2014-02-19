@@ -6,12 +6,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.Display;
+
 import cpw.mods.fml.relauncher.FMLInjectionData;
 
 public class UpdaterThread
 {
 	public static List<String> stringsToLookFor = new ArrayList<String>();
 	public static List<File> filesToMove = new ArrayList<File>();
+	static String dispTitle = "Minecraft";
 	
 	public static enum OS
 	{
@@ -32,6 +35,7 @@ public class UpdaterThread
 	
 	public static void start()
 	{
+		dispTitle = Display.getTitle();
 	    InputStream source = null;
 	    FileOutputStream destination = null;
 		try
@@ -73,6 +77,21 @@ public class UpdaterThread
 			e.printStackTrace();
 			return;
 		}
+		new Thread()
+		{
+			public void run()
+			{
+				this.setName("Updater Test Thread");
+				while(true)
+				{
+					if(!Display.isCreated() && filesToMove.size() > 0)
+					{
+						UpdaterThread.runCopier();
+						break;
+					}
+				}
+			}
+		}.start();
 	}
 	
 	public static void runCopier()
@@ -111,6 +130,11 @@ public class UpdaterThread
 						files += ",";
 					}
 					strings.add(files.substring(0, files.length() - 1));
+				}
+				if(Display.getTitle() != null)
+				{
+					strings.add("-t");
+					strings.add(dispTitle);
 				}
 				ProcessBuilder localProcessBuilder = new ProcessBuilder(strings);
 				Process localProcess = localProcessBuilder.start();

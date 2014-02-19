@@ -134,7 +134,6 @@ public class GuiUpdates extends GuiScreen
                         this.mc.theWorld.sendQuittingDisconnectingPacket();
                         this.mc.loadWorld((WorldClient)null);
             		}
-            		UpdaterThread.runCopier();
             		this.mc.shutdown();
             	}
             	else
@@ -197,7 +196,6 @@ public class GuiUpdates extends GuiScreen
                     this.mc.theWorld.sendQuittingDisconnectingPacket();
                     this.mc.loadWorld((WorldClient)null);
         		}
-        		UpdaterThread.runCopier();
         		this.mc.shutdown();
         	}
             this.mc.displayGuiScreen((GuiScreen)null);
