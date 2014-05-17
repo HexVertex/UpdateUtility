@@ -1,6 +1,7 @@
 package xelitez.updateutility;
 
 import org.apache.logging.log4j.Level;
+
 import cpw.mods.fml.common.FMLLog;
 
 public class XEZLog 

@@ -7,7 +7,8 @@ import net.minecraftforge.common.config.Property;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.*;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.FMLInjectionData;
@@ -16,7 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(	
 		modid = "XEZUpdate",
 		name = "XEliteZ Update Utility",
-		version = "1.2")
+		version = "1.3")
 public class XEZUpdate 
 {
 	@Instance(value = "XEZUpdate")
@@ -63,6 +64,11 @@ public class XEZUpdate
 				Property DrawMenuMode = c.get(Configuration.CATEGORY_GENERAL, "mainMenuButtonMode", drawMode);
 				DrawMenuMode.comment = "0=Vanilla Minecraft Main Menu; 1=VoxelMenu";
 				UpdateEventListener.instance.mainMenuButtonMode = DrawMenuMode.getInt(drawMode);
+				Property pause = c.get(Configuration.CATEGORY_GENERAL, "pauseUpdater", false);
+				pause.comment = "Set to true if you want the updater/file copier not to close automatically. "
+						+ "This would mean that you will be able to read the log, but you will also need to manually "
+						+ "close it after it's finished";
+				UpdaterThread.pause = pause.getBoolean(false);
 				
 			} 
 			catch(Exception e) {

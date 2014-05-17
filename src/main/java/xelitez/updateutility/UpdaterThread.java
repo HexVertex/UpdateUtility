@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+
 import org.lwjgl.opengl.Display;
 
 import cpw.mods.fml.relauncher.FMLInjectionData;
@@ -15,6 +17,7 @@ public class UpdaterThread
 	public static List<String> stringsToLookFor = new ArrayList<String>();
 	public static List<File> filesToMove = new ArrayList<File>();
 	static String dispTitle = "Minecraft";
+	public static boolean pause = false;
 	
 	public static enum OS
 	{
@@ -131,10 +134,20 @@ public class UpdaterThread
 					}
 					strings.add(files.substring(0, files.length() - 1));
 				}
-				if(Display.getTitle() != null)
+				if(getPlatform() == OS.WINDOWS)
 				{
 					strings.add("-t");
 					strings.add(dispTitle);
+				}
+				else
+				{
+					String jarPath = Minecraft.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+					strings.add("-t");
+					strings.add(jarPath.substring(jarPath.indexOf("file:/") + 6, jarPath.lastIndexOf(".jar") + 4));
+				}
+				if(pause)
+				{
+					strings.add("-p");
 				}
 				ProcessBuilder localProcessBuilder = new ProcessBuilder(strings);
 				Process localProcess = localProcessBuilder.start();

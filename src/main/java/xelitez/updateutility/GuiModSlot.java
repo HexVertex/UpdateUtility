@@ -1,12 +1,12 @@
 package xelitez.updateutility;
 
-import org.lwjgl.opengl.GL11;
-
-import xelitez.updateutility.UpdateRegistry.ModInstance;
-
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
+import xelitez.updateutility.UpdateRegistry.ModInstance;
 
 public class GuiModSlot extends GuiSlot
 {
