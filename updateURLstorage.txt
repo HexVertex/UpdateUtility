@@ -1,3 +1,3 @@
 <updateutility>https://dl.dropboxusercontent.com/s/04ii3w9hwxbdxj6/UpdateUtility-1.7.2-1.3.jar?dl=1&token_hash=AAE5iAoFThhODa9q5IhrM3w0YUPXe-EADv-37poZhj1wBQ&expiry=1400327586</updateutility>
-<frostcraft>https://dl.dropboxusercontent.com/s/2nbk3x48m3ju8nd/Frostcraft-1.7.2-1.3.0.jar?dl=1&token_hash=AAGY4iojmt706xtVBhJOG4qb5yIx8b5ytPEJYuYKYlv5CQ&expiry=1400512193</frostcraft>
+<frostcraft>https://dl.dropboxusercontent.com/s/p9www678jyp62kn/Frostcraft-1.7.2-1.3.1.jar?dl=1&token_hash=AAF8Q01LFsapxnEjnn2-RPn3nDr7r17K7ai25iLxP6zbNQ&expiry=1400600744</frostcraft>
 <pressureplate>https://dl.dropboxusercontent.com/s/8epk1j5f74b2k92/IronPressurePlates-1.7.2-3.4.2.jar?dl=1&token_hash=AAEnQ31L6JB6xgZgmjCzn3Hd5GZQVoKq_W7XOuqDB_KWoQ</pressureplate>
