@@ -13,8 +13,8 @@ import java.util.List;
 public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
-    public static int minorVersion = 3;
-    public static int majorBuild = 9;
+    public static int minorVersion = 4;
+    public static int majorBuild = 10;
     public static String MC = "MC:1.7.2";
     
     public static String newVersion;

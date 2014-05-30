@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,11 +72,7 @@ public class Downloader
 		{
 			
 			gui.updateDownloadBar(0, "Connecting...", true);
-			String strr = URLDecoder.decode(url.getFile().substring(url.getFile().lastIndexOf("/")), "UTF-8");
-			if(strr.contains("?"))
-			{	
-				strr = strr.substring(0, strr.indexOf("?"));
-			};
+			String strr = UpdateRegistry.instance().getMod(selectedMod).update.stringToDelete();
 			URLConnection connection = url.openConnection();
 			File downloadsDir = new File((File)FMLInjectionData.data()[6], "XEliteZ/downloads");
 			if(!downloadsDir.getCanonicalFile().exists());
@@ -85,7 +80,7 @@ public class Downloader
 				downloadsDir.getCanonicalFile().mkdirs();
 			}
 			File file = new File((File)FMLInjectionData.data()[6], 
-					"XEliteZ/downloads/" + strr);
+					"XEliteZ/downloads/" + strr + ".jar");
 			InputStream reader = url.openStream();
 			FileOutputStream writer = new FileOutputStream(file);
 			byte[] buffer = new byte[153600];
