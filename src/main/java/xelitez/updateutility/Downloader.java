@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,15 +73,38 @@ public class Downloader
 		{
 			
 			gui.updateDownloadBar(0, "Connecting...", true);
-			String strr = UpdateRegistry.instance().getMod(selectedMod).update.stringToDelete();
+			String strr = "";
 			URLConnection connection = url.openConnection();
+			String disposition = connection.getHeaderField("Content-Disposition");
+ 
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                	strr = disposition.substring(index + 10,
+                            disposition.length() - 1);
+                }
+            } else {
+                // extracts file name from URL
+            	strr = URLDecoder.decode(url.getFile().substring(url.getFile().lastIndexOf("/")), "UTF-8");
+            	if(strr.contains("?"))
+    			{	
+    				strr = strr.substring(0, strr.indexOf("?"));
+    			};
+            }
+            if(!strr.contains(UpdateRegistry.instance().getMod(selectedMod).update.stringToDelete()))
+            {
+            	XEZLog.warning("Update for " + UpdateRegistry.instance().getMod(selectedMod).mod.getName() + " does not contain the name that will normally be deleted by the updater");
+            	XEZLog.warning("This may cause problems, if so you will have to remove the mod file(" + strr + ") manually next update");
+            	
+            }
 			File downloadsDir = new File((File)FMLInjectionData.data()[6], "XEliteZ/downloads");
 			if(!downloadsDir.getCanonicalFile().exists());
 			{
 				downloadsDir.getCanonicalFile().mkdirs();
 			}
 			File file = new File((File)FMLInjectionData.data()[6], 
-					"XEliteZ/downloads/" + strr + ".jar");
+					"XEliteZ/downloads/" + strr);
 			InputStream reader = url.openStream();
 			FileOutputStream writer = new FileOutputStream(file);
 			byte[] buffer = new byte[153600];
