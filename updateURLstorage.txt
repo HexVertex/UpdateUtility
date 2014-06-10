@@ -1,3 +1,3 @@
 <updateutility>https://www.dropbox.com/meta_dl/eyJzdWJfcGF0aCI6ICIiLCAidGVzdF9saW5rIjogZmFsc2UsICJzZXJ2ZXIiOiAiZGwuZHJvcGJveHVzZXJjb250ZW50LmNvbSIsICJpdGVtX2lkIjogbnVsbCwgImlzX2RpciI6IGZhbHNlLCAidGtleSI6ICJ0azIxaXpkamhleHk2bDAifQ/AAImEsbWl1EJxYFEFWpU-j3wtbGah11eXKzMRWBKSzTKsw?dl=1</updateutility>
-<frostcraft>https://www.dropbox.com/meta_dl/eyJzdWJfcGF0aCI6ICIiLCAidGVzdF9saW5rIjogZmFsc2UsICJzZXJ2ZXIiOiAiZGwuZHJvcGJveHVzZXJjb250ZW50LmNvbSIsICJpdGVtX2lkIjogbnVsbCwgImlzX2RpciI6IGZhbHNlLCAidGtleSI6ICJtcHE2cnZobWUzZ28weHoifQ/AAJ9MXgqPiBe7odqjcS7l0D9ezgQ9z_3Uut71AWlyvjFCw?dl=1</frostcraft>
+<frostcraft>https://www.dropbox.com/s/p22mpweqghhzltj/Frostcraft-1.7.2-1.3.3.jar?dl=1</frostcraft>
 <pressureplate>https://dl.dropboxusercontent.com/s/8epk1j5f74b2k92/IronPressurePlates-1.7.2-3.4.2.jar?dl=1&token_hash=AAEnQ31L6JB6xgZgmjCzn3Hd5GZQVoKq_W7XOuqDB_KWoQ</pressureplate>
