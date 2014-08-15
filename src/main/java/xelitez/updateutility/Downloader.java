@@ -92,7 +92,16 @@ public class Downloader
     				strr = strr.substring(0, strr.indexOf("?"));
     			};
             }
-            if(!strr.contains(UpdateRegistry.instance().getMod(selectedMod).update.stringToDelete()))
+            boolean containsString = false;
+            for(String del : UpdateRegistry.instance().getMod(selectedMod).update.stringsToDelete())
+            {
+            	if(strr.contains(del))
+            	{
+            		containsString = true;
+            		break;
+            	}
+            }
+            if(!containsString)
             {
             	XEZLog.warning("Update for " + UpdateRegistry.instance().getMod(selectedMod).mod.getName() + " does not contain the name that will normally be deleted by the updater");
             	XEZLog.warning("This may cause problems, if so you will have to remove the mod file(" + strr + ") manually next update");
@@ -125,7 +134,10 @@ public class Downloader
 			
 			UpdaterThread.filesToMove.add(file);
 			
-			UpdaterThread.stringsToLookFor.add(UpdateRegistry.instance().getMod(mod).update.stringToDelete());
+			for(String del : UpdateRegistry.instance().getMod(mod).update.stringsToDelete())
+			{
+				UpdaterThread.stringsToLookFor.add(del);
+			}
 			gui.updateDownloadBar(100, new StringBuilder().append("Download complete (").append(totalBytesRead / 1024).append(" kB) - Requires Minecraft to restart").toString(), false);
 		}
 		catch (Exception e) 

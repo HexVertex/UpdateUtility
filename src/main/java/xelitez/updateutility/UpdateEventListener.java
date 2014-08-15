@@ -34,7 +34,7 @@ public class UpdateEventListener
 		if(evt.phase == TickEvent.Phase.END && FMLClientHandler.instance().getClient().currentScreen instanceof GuiMainMenu && drawMainMenuButton )
 		{
 			GuiMainMenu gui = (GuiMainMenu) FMLClientHandler.instance().getClient().currentScreen;
-			ScaledResolution var13 = new ScaledResolution(FMLClientHandler.instance().getClient().gameSettings, FMLClientHandler.instance().getClient().displayWidth, FMLClientHandler.instance().getClient().displayHeight);
+			ScaledResolution var13 = new ScaledResolution(FMLClientHandler.instance().getClient(), FMLClientHandler.instance().getClient().displayWidth, FMLClientHandler.instance().getClient().displayHeight);
 			int var14 = var13.getScaledWidth();
 			int var15 = var13.getScaledHeight();
 			int var16 = Mouse.getX() * var14 / FMLClientHandler.instance().getClient().displayWidth;
