@@ -17,13 +17,24 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.2-1.5"
-group= "com.yourname.modid" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+ext.configFile = file "build.properties"
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+version = config.mc_version + "-" + config.mod_version
+group= "xelitez.updateutility"
 archivesBaseName = "UpdateUtility"
 
 minecraft {
-    version = "1.7.2-10.12.1.1060"
-    assetDir = "eclipse/assets"
+	version = config.mc_version + "-" + config.forge_version
+	runDir = "jars/assets"
+	replaceIn "xelitez/updateutility/Version.java"
+	replace "#mod_version#", "${config.mod_version}"
+	replace "#mc_version#", "${config.mc_version}"
 }
 processResources
 {
@@ -32,7 +43,7 @@ processResources
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'mod_version':config.mod_version, 'mc_version':config.mc_version
     }
         
     // copy everything else, thats not the mcmod.info

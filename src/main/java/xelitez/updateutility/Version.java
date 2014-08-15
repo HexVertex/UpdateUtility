@@ -14,17 +14,20 @@ public class Version implements IXEZUpdate
 {
     public static int majorVersion = 1;
     public static int minorVersion = 5;
-    public static int majorBuild = 11;
-    public static String MC = "MC:1.7.2";
+    public static int majorBuild = 12;
+//    public static String MC = "MC:1.7.2";
+    public static final String version = "#mod_version#";
+    public static final String MC = "#mc_version#";
     
     public static String newVersion;
     public static boolean available = false;
     
     public static String getVersion()
     {
-        return produceVersion(majorVersion, minorVersion, majorBuild);
+    	return version;
     }
     
+    @Deprecated
     private static String produceVersion(int var1, int var2, int var3)
     {
         StringBuilder Str1 = new StringBuilder();
@@ -52,7 +55,79 @@ public class Version implements IXEZUpdate
 	}
 
 	@Override
-	public void checkForUpdates() 
+	public void checkForUpdates()
+	{
+		List<String> strings = new ArrayList<String>();
+		String NV = "";
+		String NMC = "";
+		
+		
+		try
+		{
+			URL url = new URL("https://raw2.github.com/XEZKalvin/UpdateUtility/master/build.properties");
+			URLConnection connect = url.openConnection();
+			connect.setConnectTimeout(5000);
+			connect.setReadTimeout(5000);
+			BufferedReader in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
+			String str;
+			
+			while ((str = in.readLine()) != null)
+			{
+				strings.add(str);
+			}
+			
+			in.close();
+		}
+		catch (MalformedURLException e)
+    	{
+    		checkForUpdatesOld();
+    		return;
+    	}
+    	catch (ConnectException e)
+    	{
+    		checkForUpdatesOld();
+    		return;
+    	}
+    	catch (IOException e)
+    	{
+    		checkForUpdatesOld();
+    		return;
+    	}
+		
+		for (int i = 0; i < strings.size(); i++)
+    	{
+    		String line = "";
+    		
+    		if (strings.get(i) != null)
+    		{
+    			line = (String)strings.get(i);
+    		}
+    		
+    		if (line != null && !line.matches(""))
+    		{
+    			if (line.contains("mod_version"))
+    			{
+    				NV = line.substring(line.indexOf("'") + 1, line.lastIndexOf("'"));
+    			}
+    			if (line.contains("mc_version"))
+    			{
+    				NMC = line.substring(line.indexOf("'") + 1, line.lastIndexOf("'"));
+    			}
+    		}
+    	}
+		available = false;
+		if( (!NV.matches("") && !version.matches(NV)) || (!NMC.matches("") && !MC.matches(NMC)))
+		{
+			available = true;
+		}
+		
+    	if (!NMC.matches(""))
+    	{
+    		newVersion = NV + " for MC:" + NMC;
+    	}
+	}
+	
+	public void checkForUpdatesOld() 
 	{
 		List<String> strings = new ArrayList<String>();
 		int MV = 0;
@@ -211,9 +286,9 @@ public class Version implements IXEZUpdate
 	}
 
 	@Override
-	public String stringToDelete() 
+	public String[] stringsToDelete() 
 	{
-		return "UpdateUtility";
+		return new String[] {"UpdateUtility"};
 	}
 
 }
