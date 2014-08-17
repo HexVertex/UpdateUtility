@@ -107,11 +107,11 @@ public class Version implements IXEZUpdate
     		{
     			if (line.contains("mod_version"))
     			{
-    				NV = line.substring(line.indexOf("'") + 1, line.lastIndexOf("'"));
+    				NV = line.substring(line.indexOf("=") + 1);
     			}
     			if (line.contains("mc_version"))
     			{
-    				NMC = line.substring(line.indexOf("'") + 1, line.lastIndexOf("'"));
+    				NMC = line.substring(line.indexOf("=") + 1);
     			}
     		}
     	}
