@@ -64,7 +64,7 @@ public class Version implements IXEZUpdate
 		
 		try
 		{
-			URL url = new URL("https://raw2.github.com/XEZKalvin/UpdateUtility/master/build.properties");
+			URL url = new URL("https://raw.githubusercontent.com/XEZKalvin/UpdateUtility/master/build.properties");
 			URLConnection connect = url.openConnection();
 			connect.setConnectTimeout(5000);
 			connect.setReadTimeout(5000);
@@ -251,7 +251,7 @@ public class Version implements IXEZUpdate
 		
 		try
 		{
-			URL url = new URL("https://raw2.github.com/XEZKalvin/UpdateUtility/master/updateURLstorage.txt");
+			URL url = new URL("https://raw.githubusercontent.com/XEZKalvin/UpdateUtility/master/updateURLstorage.txt");
 			URLConnection connect = url.openConnection();
 			connect.setConnectTimeout(5000);
 			connect.setReadTimeout(5000);
