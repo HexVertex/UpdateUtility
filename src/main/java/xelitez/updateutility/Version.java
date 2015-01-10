@@ -10,7 +10,9 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Version implements IXEZUpdate
+import xelitez.updateutility.twitter.TwitterInstance;
+
+public class Version extends XEZUpdateBase
 {
     public static int majorVersion = 1;
     public static int minorVersion = 5;
@@ -289,6 +291,13 @@ public class Version implements IXEZUpdate
 	public String[] stringsToDelete() 
 	{
 		return new String[] {"UpdateUtility"};
+	}
+	
+	public static TwitterInstance TwitterHandler = new TwitterInstance(0, "#UpdateUtility", "KalvinFrosted").addUserID(415813796);
+	
+	public TwitterInstance getTInstance()
+	{
+		return TwitterHandler;
 	}
 
 }

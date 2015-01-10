@@ -8,3 +8,9 @@ jars/
 .classpath
 .project
 /src - Copy/
+*.pro
+/proguard.bat
+/proguard.jar
+/proguard5.1.zip
+/proguardgui.jar
+*.s

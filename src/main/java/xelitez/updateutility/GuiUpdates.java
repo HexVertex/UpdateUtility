@@ -226,6 +226,11 @@ public class GuiUpdates extends GuiScreen
     	}
     }
     
+    public void onGuiClosed() 
+    {
+    	UpdateRegistry.instance().getTweetLists();
+    }
+    
     public Minecraft getMC()
     {
     	return this.mc;

@@ -1,10 +1,13 @@
 package xelitez.updateutility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import xelitez.updateutility.twitter.Tweet;
+import xelitez.updateutility.twitter.TwitterManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ModContainer;
 
@@ -14,6 +17,11 @@ public class UpdateRegistry
 	
 	private static UpdateRegistry instance = new UpdateRegistry();
 	
+	public HashMap<ModInstance, List<Tweet>> tweets;
+	private HashMap<ModInstance, Byte> tweetsEnabled = new HashMap<ModInstance, Byte>();
+	
+	protected TwitterManager tManager = new TwitterManager();
+	
 	public static UpdateRegistry instance()
 	{
 		return instance;
@@ -21,7 +29,7 @@ public class UpdateRegistry
 	
 	public static void addMod(Object mod, Object update)
 	{
-		if(update instanceof IXEZUpdate)
+		if(update instanceof XEZUpdateBase)
 		{
 			ModContainer mc = FMLCommonHandler.instance().findContainerFor(mod);
 			if(mc == null)
@@ -30,7 +38,7 @@ public class UpdateRegistry
 			}
 			else
 			{
-				UpdateRegistry.mods.add(new ModInstance(mc, (IXEZUpdate)update));
+				UpdateRegistry.mods.add(new ModInstance(mc, (XEZUpdateBase)update));
 				XEZLog.log(Level.INFO, "The mod " + mc.getName() + " has been successfully registered to XEZUpdateUtility");
 			}
 		}
@@ -123,12 +131,76 @@ public class UpdateRegistry
 		return updates;
 	}
 	
+	public void setupEligibleModList()
+	{
+		List<ModInstance> potentialInstances = new ArrayList<ModInstance>();
+		for(ModInstance instance : mods)
+		{
+			if(instance.update.getTInstance() != null)
+			{
+				potentialInstances.add(instance);
+			}
+			else
+			{
+				tweetsEnabled.put(instance, (byte)0);
+			}
+		}
+		List<ModInstance> eligableInstances = XEZUpdate.configuration.getEnabledModsFromList(potentialInstances);
+		for(ModInstance instance : potentialInstances)
+		{
+			if(eligableInstances.contains(instance))
+			{
+				tweetsEnabled.put(instance, (byte)2);
+			}
+			else
+			{
+				tweetsEnabled.put(instance, (byte)1);
+			}
+		}
+	}
+	
+	public void getTweetLists()
+	{
+		tweets = new HashMap<ModInstance, List<Tweet>>();
+		for(ModInstance instance : mods)
+		{
+			if(shouldGetTweets(instance))
+			{
+				tweets.put(instance, tManager.makeRequest(instance.update.getTInstance())) ;
+			}
+		}
+	}
+	
+	public boolean shouldGetTweets(ModInstance mod)
+	{
+		if(tweetsEnabled.get(mod) == (byte)2)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean getIsTwitterAvailable(ModInstance mod)
+	{
+		if(tweetsEnabled.get(mod) == (byte)0)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public void toggleModAvailibility(ModInstance mod)
+	{
+		XEZUpdate.configuration.toggleModAvailibility(mod);
+		this.setupEligibleModList();
+	}
+	
 	public static class ModInstance
 	{
 		ModContainer mod;
-		IXEZUpdate update;
+		XEZUpdateBase update;
 		
-		public ModInstance(ModContainer mod, IXEZUpdate update)
+		public ModInstance(ModContainer mod, XEZUpdateBase update)
 		{
 			this.mod = mod;
 			this.update = update;

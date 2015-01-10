@@ -18,11 +18,18 @@ buildscript {
 apply plugin: 'forge'
 
 ext.configFile = file "build.properties"
+ext.sFile = file "s.s"
 
 configFile.withReader {
     def prop = new Properties()
     prop.load(it)
     project.ext.config = new ConfigSlurper().parse prop
+}
+
+sFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.s = new ConfigSlurper().parse prop
 }
 
 version = config.mc_version + "-" + config.mod_version
@@ -35,6 +42,8 @@ minecraft {
 	replaceIn "xelitez/updateutility/Version.java"
 	replace "#mod_version#", "${config.mod_version}"
 	replace "#mc_version#", "${config.mc_version}"
+	replaceIn "xelitez/updateutility/twitter/TwitterManager.java"
+	replace "#CS#", "${s.s}"
 }
 processResources
 {

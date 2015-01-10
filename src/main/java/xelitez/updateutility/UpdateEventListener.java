@@ -1,5 +1,8 @@
 package xelitez.updateutility;
 
+import java.util.List;
+import java.util.Map.Entry;
+
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiControls;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -13,6 +16,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import xelitez.updateutility.UpdateRegistry.ModInstance;
+import xelitez.updateutility.twitter.Tweet;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -101,7 +106,21 @@ public class UpdateEventListener
 	{
 		if(UpdateRegistry.instance().getNumberOfModUpdatesAvailable() > 0)
 		{
-			evt.player.addChatMessage(new ChatComponentText("[XEZUpdateUtility] \u00a7eOne or more mods appear to have updates. go back to the main menu to check which mods or press \u00a7f" + Keyboard.getKeyName(button.getKeyCode()) + "\u00a7e to open the ingame-GUI."));
+			evt.player.addChatMessage(new ChatComponentText("<\u00a73XEZUpdateUtility\u00a7r> \u00a7c" + UpdateRegistry.instance().getNumberOfModUpdatesAvailable() + "\u00a7e mod" + (UpdateRegistry.instance().getNumberOfModUpdatesAvailable() != 1 ? "s" : "") + " \u00a7eappears \u00a7eto \u00a7ehave \u00a7ean \u00a7eupdate. \u00a7eGo \u00a7eback \u00a7eto \u00a7ethe \u00a7emain \u00a7emenu \u00a7eto \u00a7echeck \u00a7ewhich \u00a7emod" + (UpdateRegistry.instance().getNumberOfModUpdatesAvailable() != 1 ? "s" : "") +  " \u00a7eor \u00a7epress \u00a7f" + Keyboard.getKeyName(button.getKeyCode()) + " \u00a7eto \u00a7eopen \u00a7ethe \u00a7eingame-GUI."));
+		}
+		if(UpdateRegistry.instance().tweets.size() > 0)
+		{
+			for(Entry<ModInstance, List<Tweet>> entry : UpdateRegistry.instance().tweets.entrySet())
+			{
+				List<Tweet> tweetList = entry.getValue();
+				for(Tweet tweet : tweetList)
+				{
+					if(tweet != null && tweet.text != null && tweet.text.contains(entry.getKey().update.getTInstance().filterString))
+					{
+						evt.player.addChatMessage(new ChatComponentText("<\u00a73UUTwitter \u00a73Plug-In\u00a7r> \u00a7o@" + entry.getKey().update.getTInstance().displayName + "\u00a7r: " + tweet.text));
+					}
+				}
+			}
 		}
 	}
 	
