@@ -1,3 +1,3 @@
 <updateutility>https://www.dropbox.com/s/6makq93o5k7ywpi/UpdateUtility-1.7.10-2.0.16-obf.jar?dl=1</updateutility>
 <frostcraft>http://minecraft.curseforge.com/mc-mods/221210-xelitez-frostcraft/files/2224125/download</frostcraft>
-<pressureplate>http://minecraft.curseforge.com/mc-mods/221424-iron-mixed-pressure-plate-mod/files/2232024/download</pressureplate>
+<pressureplate>http://minecraft.curseforge.com/mc-mods/221424-iron-mixed-pressure-plate-mod/files/2232068/download</pressureplate>
