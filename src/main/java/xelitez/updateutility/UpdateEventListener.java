@@ -118,6 +118,7 @@ public class UpdateEventListener
 					if(tweet != null && tweet.text != null && tweet.text.contains(entry.getKey().update.getTInstance().filterString))
 					{
 						evt.player.addChatMessage(new ChatComponentText("<\u00a73UUTwitter \u00a73Plug-In\u00a7r> \u00a7o@" + entry.getKey().update.getTInstance().displayName + "\u00a7r: " + tweet.text));
+						break;
 					}
 				}
 			}
