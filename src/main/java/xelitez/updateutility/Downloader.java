@@ -76,13 +76,12 @@ public class Downloader
 			String strr = "";
 			URLConnection connection = url.openConnection();
 			String disposition = connection.getHeaderField("Content-Disposition");
- 
             if (disposition != null) {
                 // extracts file name from header field
                 int index = disposition.indexOf("filename=");
                 if (index > 0) {
                 	strr = disposition.substring(index + 10,
-                            disposition.length() - 1);
+                            disposition.indexOf("\";", index + 10));
                 }
             } else {
                 // extracts file name from URL
@@ -143,6 +142,7 @@ public class Downloader
 		catch (Exception e) 
 		{
 			gui.updateDownloadBar(0, "Download failed", false);
+			e.printStackTrace();
 		}
 	}	
 	

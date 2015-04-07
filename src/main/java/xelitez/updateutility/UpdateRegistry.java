@@ -161,14 +161,20 @@ public class UpdateRegistry
 	
 	public void getTweetLists()
 	{
-		tweets = new HashMap<ModInstance, List<Tweet>>();
-		for(ModInstance instance : mods)
+		new Thread("XEZUpdate Thread")
 		{
-			if(shouldGetTweets(instance))
+			public void run()
 			{
-				tweets.put(instance, tManager.makeRequest(instance.update.getTInstance())) ;
+				tweets = new HashMap<ModInstance, List<Tweet>>();
+				for(ModInstance instance : mods)
+				{
+					if(shouldGetTweets(instance))
+					{
+						tweets.put(instance, tManager.makeRequest(instance.update.getTInstance())) ;
+					}
+				}
 			}
-		}
+		}.start();
 	}
 	
 	public boolean shouldGetTweets(ModInstance mod)
