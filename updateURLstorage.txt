@@ -1,3 +1,3 @@
 <updateutility>https://www.dropbox.com/s/u7bj91g54yhzt7u/UpdateUtility-1.7.10-2.0.17-obf.jar?dl=1</updateutility>
 <frostcraft>http://addons-origin.cursecdn.com/files/2224/125/Frostcraft-1.7.10-1.4.0.31.jar</frostcraft>
-<pressureplate>http://addons-origin.cursecdn.com/files/2232/68/IronPressurePlates-1.7.10-3.4.3.jar</pressureplate>
+<pressureplate>http://addons-origin.cursecdn.com/files/2236/835/IronPressurePlates-1.7.10-3.4.4.jar</pressureplate>
